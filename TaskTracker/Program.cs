@@ -15,7 +15,7 @@ namespace TaskTracker
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new taskTracker());
+            Application.Run(new categoriesListBox());
         }
     }
 }

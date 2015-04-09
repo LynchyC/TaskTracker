@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace TaskTracker
 {
-    public partial class taskTracker : Form
+    public partial class categoriesListBox : Form
     {
-        public taskTracker()
+        public categoriesListBox()
         {
             InitializeComponent();
         }
