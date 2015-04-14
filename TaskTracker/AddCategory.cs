@@ -5,13 +5,14 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TaskTracker
 {
-    public partial class taskTracker : Form
+    public partial class AddCategory : Form
     {
-        public taskTracker()
+        public AddCategory()
         {
             InitializeComponent();
         }
