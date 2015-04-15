@@ -32,6 +32,7 @@
             this.categoryListBox = new System.Windows.Forms.ListBox();
             this.addCategoryBtn = new System.Windows.Forms.Button();
             this.delCategoryBtn = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // categoriesBox
@@ -46,35 +47,44 @@
             // 
             // categoryListBox
             // 
+            this.categoryListBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.categoryListBox.FormattingEnabled = true;
-            this.categoryListBox.Location = new System.Drawing.Point(13, 41);
+            this.categoryListBox.Location = new System.Drawing.Point(13, 40);
             this.categoryListBox.Name = "categoryListBox";
             this.categoryListBox.Size = new System.Drawing.Size(259, 212);
             this.categoryListBox.TabIndex = 1;
             // 
             // addCategoryBtn
             // 
-            this.addCategoryBtn.Location = new System.Drawing.Point(159, 11);
+            this.addCategoryBtn.Location = new System.Drawing.Point(140, 256);
             this.addCategoryBtn.Name = "addCategoryBtn";
-            this.addCategoryBtn.Size = new System.Drawing.Size(35, 24);
+            this.addCategoryBtn.Size = new System.Drawing.Size(54, 23);
             this.addCategoryBtn.TabIndex = 2;
-            this.addCategoryBtn.Text = "+";
+            this.addCategoryBtn.Text = "Add";
             this.addCategoryBtn.UseVisualStyleBackColor = true;
             // 
             // delCategoryBtn
             // 
-            this.delCategoryBtn.Location = new System.Drawing.Point(209, 11);
+            this.delCategoryBtn.Location = new System.Drawing.Point(140, 12);
             this.delCategoryBtn.Name = "delCategoryBtn";
-            this.delCategoryBtn.Size = new System.Drawing.Size(35, 24);
+            this.delCategoryBtn.Size = new System.Drawing.Size(54, 22);
             this.delCategoryBtn.TabIndex = 3;
-            this.delCategoryBtn.Text = "-";
+            this.delCategoryBtn.Text = "Delete";
             this.delCategoryBtn.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(13, 258);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(121, 20);
+            this.textBox1.TabIndex = 4;
             // 
             // taskTracker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(284, 290);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.delCategoryBtn);
             this.Controls.Add(this.addCategoryBtn);
             this.Controls.Add(this.categoryListBox);
@@ -82,6 +92,7 @@
             this.Name = "taskTracker";
             this.Text = "Task Tracker";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -91,6 +102,7 @@
         private System.Windows.Forms.ListBox categoryListBox;
         private System.Windows.Forms.Button addCategoryBtn;
         private System.Windows.Forms.Button delCategoryBtn;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 

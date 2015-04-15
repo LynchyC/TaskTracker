@@ -7,13 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+
 namespace TaskTracker
 {
     public partial class taskTracker : Form
     {
+        
+
         public taskTracker()
         {
             InitializeComponent();
+        }
+
+        private void AddCategoryBtn(object sender, EventArgs e) 
+        {
+            Category cat = new Category();            
+                        
         }
     }
 }
