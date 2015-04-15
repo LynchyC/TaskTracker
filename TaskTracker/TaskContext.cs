@@ -6,6 +6,7 @@ using System.Text;
 using MongoDB.Driver;
 using MongoDB.Bson;
 using TaskTracker;
+using System.Windows.Forms;
 
 namespace TaskTracker
 {
@@ -25,6 +26,7 @@ namespace TaskTracker
                 return mongoClient;
             }
         }
+        
 
         public IMongoCollection<Category> GetMongoCredentials() 
         {
@@ -44,9 +46,19 @@ namespace TaskTracker
                 CategoryName = categoryName,
                 DateStamp = DateTime.Now
             };
-
-            await col.InsertOneAsync(doc);
-
+                      
+            var builder = Builders<Category>.Filter;
+            var filter = builder.Eq("CategoryName", categoryName);
+            var count = await col.Find<Category>(filter).CountAsync();
+            if (count == 0)
+            {
+                await col.InsertOneAsync(doc);    
+            }
+            else
+            {
+                MessageBox.Show("You cannot have a category with the same name.");
+                return;
+            }
         }
 
     }
