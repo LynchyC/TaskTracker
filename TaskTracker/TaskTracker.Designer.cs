@@ -32,7 +32,7 @@
             this.categoryListBox = new System.Windows.Forms.ListBox();
             this.addCategoryBtn = new System.Windows.Forms.Button();
             this.delCategoryBtn = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.categoryTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // categoriesBox
@@ -72,19 +72,19 @@
             this.delCategoryBtn.Text = "Delete";
             this.delCategoryBtn.UseVisualStyleBackColor = true;
             // 
-            // textBox1
+            // categoryTextBox
             // 
-            this.textBox1.Location = new System.Drawing.Point(13, 258);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(121, 20);
-            this.textBox1.TabIndex = 4;
+            this.categoryTextBox.Location = new System.Drawing.Point(13, 258);
+            this.categoryTextBox.Name = "categoryTextBox";
+            this.categoryTextBox.Size = new System.Drawing.Size(121, 20);
+            this.categoryTextBox.TabIndex = 4;
             // 
             // taskTracker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 290);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.categoryTextBox);
             this.Controls.Add(this.delCategoryBtn);
             this.Controls.Add(this.addCategoryBtn);
             this.Controls.Add(this.categoryListBox);
@@ -102,7 +102,7 @@
         private System.Windows.Forms.ListBox categoryListBox;
         private System.Windows.Forms.Button addCategoryBtn;
         private System.Windows.Forms.Button delCategoryBtn;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox categoryTextBox;
     }
 }
 

@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 
 
 namespace TaskTracker
@@ -21,8 +22,9 @@ namespace TaskTracker
 
         private void AddCategoryBtn(object sender, EventArgs e) 
         {
-            Category cat = new Category();            
-                        
+            TaskContext task = new TaskContext();
+            task.InsertCategory(categoryTextBox.Text);
+            
         }
     }
 }
