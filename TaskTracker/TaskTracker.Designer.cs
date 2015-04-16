@@ -62,6 +62,7 @@
             this.addCategoryBtn.TabIndex = 2;
             this.addCategoryBtn.Text = "Add";
             this.addCategoryBtn.UseVisualStyleBackColor = true;
+            this.addCategoryBtn.Click += new System.EventHandler(this.AddCategoryBtn);
             // 
             // delCategoryBtn
             // 
@@ -91,6 +92,7 @@
             this.Controls.Add(this.categoriesBox);
             this.Name = "taskTracker";
             this.Text = "Task Tracker";
+            this.Load += new System.EventHandler(this.OnLoad);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Category.cs" />
+    <Compile Include="Task.cs" />
     <Compile Include="TaskContext.cs" />
     <Compile Include="TaskTracker.cs">
       <SubType>Form</SubType>

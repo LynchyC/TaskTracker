@@ -13,18 +13,38 @@ namespace TaskTracker
 {
     public partial class taskTracker : Form
     {
-        
+        TaskContext task = new TaskContext();
 
         public taskTracker()
         {
             InitializeComponent();
         }
 
-        private void AddCategoryBtn(object sender, EventArgs e) 
+        private async void LoadCategoryList() 
         {
-            TaskContext task = new TaskContext();
-            task.InsertCategory(categoryTextBox.Text);
+            List<string> categories = await task.FindCategoryNames();
+            categories.Insert(0, "Select a category...");
+            categoriesBox.DataSource = categories;
+        }
+
+        private void OnLoad(object sender, EventArgs e) 
+        {
+            LoadCategoryList();
+        }
+
+        private async void AddCategoryBtn(object sender, EventArgs e) 
+        {
             
+            if (categoryTextBox.Text == string.Empty)
+	        {
+                MessageBox.Show("Please insert a valid Category Name");
+                return;
+	        }
+            else
+            {
+                await task.InsertCategory(categoryTextBox.Text);
+                LoadCategoryList();
+            }                        
         }
     }
 }
