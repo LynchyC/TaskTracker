@@ -9,6 +9,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using TaskTracker;
 using System.Windows.Forms;
+using System.Configuration;
 
 namespace TaskTracker
 {
@@ -23,7 +24,7 @@ namespace TaskTracker
 
         static TaskContext()
         {
-            var connectionString = "mongodb://win12itdev:27017";
+            var connectionString = ConfigurationManager.ConnectionStrings["prod"].ConnectionString;
             _client = new MongoClient(connectionString);
             _database = _client.GetDatabase(DATABASE_NAME);
             COLLECTION_NAME = collectionName();
