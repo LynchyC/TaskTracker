@@ -31,7 +31,7 @@
             this.categoriesBox = new System.Windows.Forms.ComboBox();
             this.categoryListBox = new System.Windows.Forms.ListBox();
             this.addCategoryBtn = new System.Windows.Forms.Button();
-            this.categoryTextBox = new System.Windows.Forms.TextBox();
+            this.taskTextBox = new System.Windows.Forms.TextBox();
             this.delCategoryBtn = new System.Windows.Forms.Button();
             this.addTaskBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -65,12 +65,12 @@
             this.addCategoryBtn.UseVisualStyleBackColor = true;
             this.addCategoryBtn.Click += new System.EventHandler(this.AddCategoryBtn);
             // 
-            // categoryTextBox
+            // taskTextBox
             // 
-            this.categoryTextBox.Location = new System.Drawing.Point(13, 258);
-            this.categoryTextBox.Name = "categoryTextBox";
-            this.categoryTextBox.Size = new System.Drawing.Size(121, 20);
-            this.categoryTextBox.TabIndex = 4;
+            this.taskTextBox.Location = new System.Drawing.Point(13, 258);
+            this.taskTextBox.Name = "taskTextBox";
+            this.taskTextBox.Size = new System.Drawing.Size(121, 20);
+            this.taskTextBox.TabIndex = 4;
             // 
             // delCategoryBtn
             // 
@@ -84,12 +84,13 @@
             // 
             // addTaskBtn
             // 
-            this.addTaskBtn.Location = new System.Drawing.Point(140, 258);
+            this.addTaskBtn.Location = new System.Drawing.Point(140, 256);
             this.addTaskBtn.Name = "addTaskBtn";
             this.addTaskBtn.Size = new System.Drawing.Size(75, 23);
             this.addTaskBtn.TabIndex = 6;
             this.addTaskBtn.Text = "Add Task";
             this.addTaskBtn.UseVisualStyleBackColor = true;
+            this.addTaskBtn.Click += new System.EventHandler(this.AddTaskBtn);
             // 
             // taskTracker
             // 
@@ -98,7 +99,7 @@
             this.ClientSize = new System.Drawing.Size(284, 290);
             this.Controls.Add(this.addTaskBtn);
             this.Controls.Add(this.delCategoryBtn);
-            this.Controls.Add(this.categoryTextBox);
+            this.Controls.Add(this.taskTextBox);
             this.Controls.Add(this.addCategoryBtn);
             this.Controls.Add(this.categoryListBox);
             this.Controls.Add(this.categoriesBox);
@@ -115,7 +116,7 @@
         private System.Windows.Forms.ComboBox categoriesBox;
         private System.Windows.Forms.ListBox categoryListBox;
         private System.Windows.Forms.Button addCategoryBtn;
-        private System.Windows.Forms.TextBox categoryTextBox;
+        private System.Windows.Forms.TextBox taskTextBox;
         private System.Windows.Forms.Button delCategoryBtn;
         private System.Windows.Forms.Button addTaskBtn;
     }

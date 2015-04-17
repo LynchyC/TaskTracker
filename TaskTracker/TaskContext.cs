@@ -78,19 +78,21 @@ namespace TaskTracker
         
 
         public async Task<bool> InsertCategory(string categoryName)
-        {        
+        {   
+            // Creates an new instance of task to correct the issue of taskName and taskBody being entered later on.
             var doc = new Category
             {
                 CategoryName = categoryName,
-                DateStamp = DateTime.Now
+                DateStamp = DateTime.Now,
+                Task = new List<Task>()
             };                                 
 
             int count = 0;            
-
+            // Checks if the category name already exists.
             var query = Categories.Find<Category>(x => x.CategoryName == categoryName).Project(x => x.CategoryName).ToListAsync().Result;
             foreach (var item in query)            
                 count++;
-                        
+             // If the check comes back with nothing then proceed with the insert.                        
             if (count == 0)            
                 await Categories.InsertOneAsync(doc);                                          
             else            
@@ -107,6 +109,7 @@ namespace TaskTracker
 
         public async Task<List<string>> FindCategoryNames()
         {
+            // Grabs only the category names in the collection to become the data source for the drop down list.
             List<string> cats = new List<string>();           
             var getCat = Categories.Find<Category>(x => x.DateStamp <= DateTime.Now)
                         .Project(x => x.CategoryName).ToListAsync().Result;            
@@ -115,6 +118,19 @@ namespace TaskTracker
                 cats.Add(item.ToString());
             }
             return cats;
+        }
+
+        public async Task<bool> InsertNewTask(string taskName,string catName)
+        {
+            // For now just adding the task name into the catergories             
+            var doc = new Task
+            {
+                TaskName = taskName
+            };
+            
+            // Find what category the task should be entered in to then updating it.
+            var update = await Categories.UpdateOneAsync(Builders<Category>.Filter.Eq("name", catName), Builders<Category>.Update.Push(x => x.Task, doc));
+            return true;
         }
     }
 }

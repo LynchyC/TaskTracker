@@ -27,6 +27,11 @@ namespace TaskTracker
             categoriesBox.DataSource = categories;
         }
 
+        private async void LoadTaskList() 
+        {
+            
+        }
+
         private void OnLoad(object sender, EventArgs e)
         {
             LoadCategoryList();
@@ -52,6 +57,22 @@ namespace TaskTracker
                     await task.DeleteCategory(categoriesBox.SelectedItem.ToString());
                     LoadCategoryList();
                 }
+            }
+        }
+
+        private async void AddTaskBtn(object sender, EventArgs e) 
+        {
+            TaskContext con = new TaskContext();
+            
+
+            if (taskTextBox.Text == string.Empty)
+                MessageBox.Show("Please enter a valid task name.");
+            else if (categoriesBox.SelectedIndex == 0)
+                MessageBox.Show("Please have a valid category selected.");
+            else
+            {
+                await con.InsertNewTask(taskTextBox.Text, categoriesBox.SelectedItem.ToString());
+                
             }
         }
     }
