@@ -75,9 +75,10 @@ namespace TaskTracker
         //}
         #endregion
 
+        
+
         public async Task<bool> InsertCategory(string categoryName)
-        {
-            TaskContext task = new TaskContext();
+        {        
             var doc = new Category
             {
                 CategoryName = categoryName,
@@ -86,12 +87,12 @@ namespace TaskTracker
 
             int count = 0;            
 
-            var query = task.Categories.Find<Category>(x => x.CategoryName == categoryName).Project(x => x.CategoryName).ToListAsync().Result;
+            var query = Categories.Find<Category>(x => x.CategoryName == categoryName).Project(x => x.CategoryName).ToListAsync().Result;
             foreach (var item in query)            
                 count++;
                         
             if (count == 0)            
-                await task.Categories.InsertOneAsync(doc);                                          
+                await Categories.InsertOneAsync(doc);                                          
             else            
                 MessageBox.Show("You cannot have a category with the same name.");                
                         
@@ -99,17 +100,15 @@ namespace TaskTracker
         }
 
         public async Task<bool> DeleteCategory(string categoryName) 
-        {
-            TaskContext task = new TaskContext();
-            var query = await task.Categories.DeleteOneAsync<Category>(x => x.CategoryName == categoryName);
+        {            
+            var query = await Categories.DeleteOneAsync<Category>(x => x.CategoryName == categoryName);
             return true;
         }
 
         public async Task<List<string>> FindCategoryNames()
         {
-            TaskContext task = new TaskContext();
             List<string> cats = new List<string>();           
-            var getCat = task.Categories.Find<Category>(x => x.DateStamp <= DateTime.Now)
+            var getCat = Categories.Find<Category>(x => x.DateStamp <= DateTime.Now)
                         .Project(x => x.CategoryName).ToListAsync().Result;            
             foreach (var item in getCat)
             {

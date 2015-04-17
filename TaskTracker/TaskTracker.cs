@@ -20,36 +20,30 @@ namespace TaskTracker
             InitializeComponent();
         }
 
-        private async void LoadCategoryList() 
+        private async void LoadCategoryList()
         {
             List<string> categories = await task.FindCategoryNames();
             categories.Insert(0, "Select a category...");
             categoriesBox.DataSource = categories;
         }
 
-        private void OnLoad(object sender, EventArgs e) 
+        private void OnLoad(object sender, EventArgs e)
         {
             LoadCategoryList();
         }
 
-        private async void AddCategoryBtn(object sender, EventArgs e) 
-        {            
-            if (categoryTextBox.Text == string.Empty)
-	        {
-                MessageBox.Show("Please insert a valid Category Name");
-                return;
-	        }
-            else
-            {
-                await task.InsertCategory(categoryTextBox.Text);
-                LoadCategoryList();
-            }                        
+        private void AddCategoryBtn(object sender, EventArgs e)
+        {
+            AddCategory addCat = new AddCategory();
+            DialogResult res = (DialogResult)addCat.ShowDialog();
+            if (res ==DialogResult.OK)           
+                LoadCategoryList();                                                   
         }
 
-        private async void DeleteCategoryBtn(object sender, EventArgs e) 
+        private async void DeleteCategoryBtn(object sender, EventArgs e)
         {
-            if (categoriesBox.SelectedIndex == 0)            
-                MessageBox.Show("Please have the drop down list on a valid category in order to delete");             
+            if (categoriesBox.SelectedIndex == 0)
+                MessageBox.Show("Please have the drop down list on a valid category in order to delete");
             else
             {
                 DialogResult result = MessageBox.Show("Are you sure you want to delete the category: '" + categoriesBox.SelectedItem.ToString() + "'?", "Delete Category", MessageBoxButtons.OKCancel);

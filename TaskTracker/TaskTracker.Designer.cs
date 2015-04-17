@@ -31,8 +31,9 @@
             this.categoriesBox = new System.Windows.Forms.ComboBox();
             this.categoryListBox = new System.Windows.Forms.ListBox();
             this.addCategoryBtn = new System.Windows.Forms.Button();
-            this.delCategoryBtn = new System.Windows.Forms.Button();
             this.categoryTextBox = new System.Windows.Forms.TextBox();
+            this.delCategoryBtn = new System.Windows.Forms.Button();
+            this.addTaskBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // categoriesBox
@@ -56,23 +57,13 @@
             // 
             // addCategoryBtn
             // 
-            this.addCategoryBtn.Location = new System.Drawing.Point(140, 256);
+            this.addCategoryBtn.Location = new System.Drawing.Point(140, 13);
             this.addCategoryBtn.Name = "addCategoryBtn";
-            this.addCategoryBtn.Size = new System.Drawing.Size(54, 23);
+            this.addCategoryBtn.Size = new System.Drawing.Size(28, 23);
             this.addCategoryBtn.TabIndex = 2;
-            this.addCategoryBtn.Text = "Add";
+            this.addCategoryBtn.Text = "+";
             this.addCategoryBtn.UseVisualStyleBackColor = true;
             this.addCategoryBtn.Click += new System.EventHandler(this.AddCategoryBtn);
-            // 
-            // delCategoryBtn
-            // 
-            this.delCategoryBtn.Location = new System.Drawing.Point(140, 12);
-            this.delCategoryBtn.Name = "delCategoryBtn";
-            this.delCategoryBtn.Size = new System.Drawing.Size(54, 22);
-            this.delCategoryBtn.TabIndex = 3;
-            this.delCategoryBtn.Text = "Delete";
-            this.delCategoryBtn.UseVisualStyleBackColor = true;
-            this.delCategoryBtn.Click += new System.EventHandler(this.DeleteCategoryBtn);
             // 
             // categoryTextBox
             // 
@@ -81,13 +72,33 @@
             this.categoryTextBox.Size = new System.Drawing.Size(121, 20);
             this.categoryTextBox.TabIndex = 4;
             // 
+            // delCategoryBtn
+            // 
+            this.delCategoryBtn.Location = new System.Drawing.Point(174, 13);
+            this.delCategoryBtn.Name = "delCategoryBtn";
+            this.delCategoryBtn.Size = new System.Drawing.Size(28, 23);
+            this.delCategoryBtn.TabIndex = 5;
+            this.delCategoryBtn.Text = "-";
+            this.delCategoryBtn.UseVisualStyleBackColor = true;
+            this.delCategoryBtn.Click += new System.EventHandler(this.DeleteCategoryBtn);
+            // 
+            // addTaskBtn
+            // 
+            this.addTaskBtn.Location = new System.Drawing.Point(140, 258);
+            this.addTaskBtn.Name = "addTaskBtn";
+            this.addTaskBtn.Size = new System.Drawing.Size(75, 23);
+            this.addTaskBtn.TabIndex = 6;
+            this.addTaskBtn.Text = "Add Task";
+            this.addTaskBtn.UseVisualStyleBackColor = true;
+            // 
             // taskTracker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 290);
-            this.Controls.Add(this.categoryTextBox);
+            this.Controls.Add(this.addTaskBtn);
             this.Controls.Add(this.delCategoryBtn);
+            this.Controls.Add(this.categoryTextBox);
             this.Controls.Add(this.addCategoryBtn);
             this.Controls.Add(this.categoryListBox);
             this.Controls.Add(this.categoriesBox);
@@ -104,8 +115,9 @@
         private System.Windows.Forms.ComboBox categoriesBox;
         private System.Windows.Forms.ListBox categoryListBox;
         private System.Windows.Forms.Button addCategoryBtn;
-        private System.Windows.Forms.Button delCategoryBtn;
         private System.Windows.Forms.TextBox categoryTextBox;
+        private System.Windows.Forms.Button delCategoryBtn;
+        private System.Windows.Forms.Button addTaskBtn;
     }
 }
 
