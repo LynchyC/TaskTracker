@@ -33,8 +33,7 @@ namespace TaskTracker
         }
 
         private async void AddCategoryBtn(object sender, EventArgs e) 
-        {
-            
+        {            
             if (categoryTextBox.Text == string.Empty)
 	        {
                 MessageBox.Show("Please insert a valid Category Name");
@@ -45,6 +44,21 @@ namespace TaskTracker
                 await task.InsertCategory(categoryTextBox.Text);
                 LoadCategoryList();
             }                        
+        }
+
+        private async void DeleteCategoryBtn(object sender, EventArgs e) 
+        {
+            if (categoriesBox.SelectedIndex == 0)            
+                MessageBox.Show("Please have the drop down list on a valid category in order to delete");             
+            else
+            {
+                DialogResult result = MessageBox.Show("Are you sure you want to delete the category: '" + categoriesBox.SelectedItem.ToString() + "'?", "Delete Category", MessageBoxButtons.OKCancel);
+                if (result == DialogResult.OK)
+                {
+                    await task.DeleteCategory(categoriesBox.SelectedItem.ToString());
+                    LoadCategoryList();
+                }
+            }
         }
     }
 }

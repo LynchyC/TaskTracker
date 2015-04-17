@@ -98,6 +98,13 @@ namespace TaskTracker
             return true;
         }
 
+        public async Task<bool> DeleteCategory(string categoryName) 
+        {
+            TaskContext task = new TaskContext();
+            var query = await task.Categories.DeleteOneAsync<Category>(x => x.CategoryName == categoryName);
+            return true;
+        }
+
         public async Task<List<string>> FindCategoryNames()
         {
             TaskContext task = new TaskContext();
