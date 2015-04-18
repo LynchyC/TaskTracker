@@ -43,8 +43,18 @@ namespace TaskTracker
         public static string collectionName() 
         {
             string collName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            collName = collName.Replace(@"VOAITDEV\", "z");
-            return collName;
+            if (collName.Contains("VOAITDEV"))
+            {
+                collName = collName.Replace(@"VOAITDEV\", "z");
+                return collName;
+            }
+            else if (collName.Contains("\\"))
+            {
+                collName = collName.Replace(collName.Substring(0, collName.IndexOf("\\") + 1), "");
+                return collName;
+            }
+            else                                    
+                return collName;
         }
 
         #region
