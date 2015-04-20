@@ -84,9 +84,7 @@ namespace TaskTracker
         //    return col;
         //}
         #endregion
-
-        
-
+       
         public async Task<bool> InsertCategory(string categoryName)
         {   
             // Creates an new instance of task to correct the issue of taskName and taskBody being entered later on.

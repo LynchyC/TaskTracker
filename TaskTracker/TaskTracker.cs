@@ -46,7 +46,9 @@ namespace TaskTracker
             AddCategory addCat = new AddCategory();
             DialogResult res = (DialogResult)addCat.ShowDialog();
             if (res ==DialogResult.OK)           
-                LoadCategoryList();                                                   
+                LoadCategoryList();
+            int count = categoriesBox.Items.Count;
+            categoriesBox.SelectedIndex = count - 1;                     
         }
 
         private async void DeleteCategoryBtn(object sender, EventArgs e)
