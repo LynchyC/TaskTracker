@@ -20,10 +20,10 @@ namespace TaskTracker
         public async void AddCategoryBtn(object sender, EventArgs e) 
         {
             TaskContext task = new TaskContext();
-            if (categoryName.Text == string.Empty)            
+            if (categoryName.Text == string.Empty)
                 MessageBox.Show("Please insert a valid Category name");
-            else            
-                await task.InsertCategory(categoryName.Text);                            
+            else
+                await task.InsertCategory(categoryName.Text);                           
         }
     }
 }

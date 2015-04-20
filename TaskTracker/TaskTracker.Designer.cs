@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.categoriesBox = new System.Windows.Forms.ComboBox();
-            this.categoryListBox = new System.Windows.Forms.ListBox();
+            this.taskListBox = new System.Windows.Forms.ListBox();
             this.addCategoryBtn = new System.Windows.Forms.Button();
             this.taskTextBox = new System.Windows.Forms.TextBox();
             this.delCategoryBtn = new System.Windows.Forms.Button();
@@ -45,15 +45,18 @@
             this.categoriesBox.Name = "categoriesBox";
             this.categoriesBox.Size = new System.Drawing.Size(121, 21);
             this.categoriesBox.TabIndex = 0;
+            this.categoriesBox.SelectedIndexChanged += new System.EventHandler(this.LoadTaskList);
             // 
-            // categoryListBox
+            // taskListBox
             // 
-            this.categoryListBox.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.categoryListBox.FormattingEnabled = true;
-            this.categoryListBox.Location = new System.Drawing.Point(13, 40);
-            this.categoryListBox.Name = "categoryListBox";
-            this.categoryListBox.Size = new System.Drawing.Size(259, 212);
-            this.categoryListBox.TabIndex = 1;
+            this.taskListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.taskListBox.FormattingEnabled = true;
+            this.taskListBox.Location = new System.Drawing.Point(13, 40);
+            this.taskListBox.Name = "taskListBox";
+            this.taskListBox.Size = new System.Drawing.Size(259, 212);
+            this.taskListBox.TabIndex = 1;
             // 
             // addCategoryBtn
             // 
@@ -67,6 +70,7 @@
             // 
             // taskTextBox
             // 
+            this.taskTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.taskTextBox.Location = new System.Drawing.Point(13, 258);
             this.taskTextBox.Name = "taskTextBox";
             this.taskTextBox.Size = new System.Drawing.Size(121, 20);
@@ -84,6 +88,7 @@
             // 
             // addTaskBtn
             // 
+            this.addTaskBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.addTaskBtn.Location = new System.Drawing.Point(140, 256);
             this.addTaskBtn.Name = "addTaskBtn";
             this.addTaskBtn.Size = new System.Drawing.Size(75, 23);
@@ -101,7 +106,7 @@
             this.Controls.Add(this.delCategoryBtn);
             this.Controls.Add(this.taskTextBox);
             this.Controls.Add(this.addCategoryBtn);
-            this.Controls.Add(this.categoryListBox);
+            this.Controls.Add(this.taskListBox);
             this.Controls.Add(this.categoriesBox);
             this.Name = "taskTracker";
             this.Text = "Task Tracker";
@@ -114,7 +119,7 @@
         #endregion
 
         private System.Windows.Forms.ComboBox categoriesBox;
-        private System.Windows.Forms.ListBox categoryListBox;
+        private System.Windows.Forms.ListBox taskListBox;
         private System.Windows.Forms.Button addCategoryBtn;
         private System.Windows.Forms.TextBox taskTextBox;
         private System.Windows.Forms.Button delCategoryBtn;

@@ -57,6 +57,7 @@
             this.ClientSize = new System.Drawing.Size(278, 43);
             this.Controls.Add(this.addCategoryBtn);
             this.Controls.Add(this.categoryName);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AddCategory";

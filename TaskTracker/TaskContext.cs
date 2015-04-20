@@ -120,8 +120,9 @@ namespace TaskTracker
         public async Task<List<string>> FindCategoryNames()
         {
             // Grabs only the category names in the collection to become the data source for the drop down list.
+            var filter = new BsonDocument();
             List<string> cats = new List<string>();           
-            var getCat = Categories.Find<Category>(x => x.DateStamp <= DateTime.Now)
+            var getCat = Categories.Find<Category>(filter)
                         .Project(x => x.CategoryName).ToListAsync().Result;            
             foreach (var item in getCat)
             {
@@ -141,6 +142,15 @@ namespace TaskTracker
             // Find what category the task should be entered in to then updating it.
             var update = await Categories.UpdateOneAsync(Builders<Category>.Filter.Eq("name", catName), Builders<Category>.Update.Push(x => x.Task, doc));
             return true;
+        }
+
+        public async Task<List<string>> FindTaskNames(string catName) 
+        {
+            // Grabs all the task names in the passed category
+            var taskNames = await Categories.Find(x => x.CategoryName == catName)
+                            .Project(x => x.Task.Select(y => y.TaskName))
+                            .ToListAsync();
+            return taskNames[0].ToList();
         }
     }
 }
