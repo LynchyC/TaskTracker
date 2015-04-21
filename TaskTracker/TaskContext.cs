@@ -134,7 +134,8 @@ namespace TaskTracker
             // For now just adding the task name into the catergories             
             var doc = new Task
             {
-                TaskName = taskName
+                TaskName = taskName,
+                DateStamp = DateTime.Now
             };
             
             // Check if task name already exists

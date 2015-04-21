@@ -16,6 +16,8 @@ namespace TaskTracker
         [BsonElement("body")]
         public string TaskBody { get; set; }
 
-
+        [BsonDateTimeOptions]
+        [BsonElement("dateCreated")]
+        public DateTime DateStamp { get; set; }
     }
 }
