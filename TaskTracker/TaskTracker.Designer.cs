@@ -110,7 +110,7 @@
             this.Controls.Add(this.categoriesBox);
             this.Name = "taskTracker";
             this.Text = "Task Tracker";
-            this.Load += new System.EventHandler(this.OnLoad);
+            this.Load += new System.EventHandler(this.LoadCategoryList);
             this.ResumeLayout(false);
             this.PerformLayout();
 

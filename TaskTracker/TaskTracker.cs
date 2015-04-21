@@ -20,33 +20,34 @@ namespace TaskTracker
             InitializeComponent();
         }
 
-        private async void LoadCategoryList()
+        private async void LoadCategoryList(object sender, EventArgs e)
         {
+            // Grabs all the category names from the mongo collection
             List<string> categories = await task.FindCategoryNames();
+            // Create the default value to guide the user. 
             categories.Insert(0, "Select a category...");
             categoriesBox.DataSource = categories;
         }
 
         private async void LoadTaskList(object sender, EventArgs e) 
         {
+            // Ignores 'Select a category...' - Invalid category!
             if (categoriesBox.SelectedIndex != 0)
             {
+                // Grabs all the task names from the array inside the mongo collection
                 List<string> tasks = await task.FindTaskNames(categoriesBox.SelectedItem.ToString());
                 taskListBox.DataSource = tasks;    
             }            
         }
 
-        private void OnLoad(object sender, EventArgs e)
-        {
-            LoadCategoryList();
-        }
-
         private void AddCategoryBtn(object sender, EventArgs e)
         {
             AddCategory addCat = new AddCategory();
+            // Runs AddCategory form - gets string value for created category. 
             DialogResult res = (DialogResult)addCat.ShowDialog();
             if (res ==DialogResult.OK)           
-                LoadCategoryList();
+                LoadCategoryList(sender,e);
+            // Sets the drop down list to go directly to newly created category.
             int count = categoriesBox.Items.Count;
             categoriesBox.SelectedIndex = count - 1;                     
         }
@@ -61,7 +62,7 @@ namespace TaskTracker
                 if (result == DialogResult.OK)
                 {
                     await task.DeleteCategory(categoriesBox.SelectedItem.ToString());
-                    LoadCategoryList();
+                    LoadCategoryList(sender,e);
                     taskListBox.DataSource = null;
                 }
             }
@@ -78,6 +79,7 @@ namespace TaskTracker
                 await task.InsertNewTask(taskTextBox.Text, categoriesBox.SelectedItem.ToString());
                 LoadTaskList(sender,e);
             }
+            taskTextBox.Clear();
         }
     }
 }

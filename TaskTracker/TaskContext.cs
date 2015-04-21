@@ -104,7 +104,7 @@ namespace TaskTracker
             if (count == 0)            
                 await Categories.InsertOneAsync(doc);                                          
             else            
-                MessageBox.Show("You cannot have a category with the same name.");                
+                MessageBox.Show("Cannot have duplicate category names.");                
                         
             return true;
         }
@@ -137,8 +137,18 @@ namespace TaskTracker
                 TaskName = taskName
             };
             
-            // Find what category the task should be entered in to then updating it.
-            var update = await Categories.UpdateOneAsync(Builders<Category>.Filter.Eq("name", catName), Builders<Category>.Update.Push(x => x.Task, doc));
+            // Check if task name already exists
+            var list = await FindTaskNames(catName);
+            foreach (var item in list)
+            {
+                if (item.ToString().ToLower() == taskName.ToLower())                
+                    MessageBox.Show("Cannot have duplicate task names.");
+                else
+                {
+                    // Find what category the task should be entered in to then updating it.
+                    var update = await Categories.UpdateOneAsync(x => x.CategoryName == catName, Builders<Category>.Update.Push(x => x.Task, doc));
+                }                
+            }                        
             return true;
         }
 
