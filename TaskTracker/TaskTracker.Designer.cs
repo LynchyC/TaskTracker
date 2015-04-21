@@ -41,7 +41,7 @@
             this.categoriesBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.categoriesBox.FormattingEnabled = true;
             this.categoriesBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.categoriesBox.Location = new System.Drawing.Point(13, 13);
+            this.categoriesBox.Location = new System.Drawing.Point(15, 12);
             this.categoriesBox.Name = "categoriesBox";
             this.categoriesBox.Size = new System.Drawing.Size(121, 21);
             this.categoriesBox.TabIndex = 0;
@@ -49,9 +49,8 @@
             // 
             // taskListBox
             // 
-            this.taskListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.taskListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.taskListBox.FormattingEnabled = true;
             this.taskListBox.Location = new System.Drawing.Point(13, 40);
             this.taskListBox.Name = "taskListBox";
@@ -60,7 +59,7 @@
             // 
             // addCategoryBtn
             // 
-            this.addCategoryBtn.Location = new System.Drawing.Point(140, 13);
+            this.addCategoryBtn.Location = new System.Drawing.Point(142, 11);
             this.addCategoryBtn.Name = "addCategoryBtn";
             this.addCategoryBtn.Size = new System.Drawing.Size(28, 23);
             this.addCategoryBtn.TabIndex = 2;
@@ -78,7 +77,7 @@
             // 
             // delCategoryBtn
             // 
-            this.delCategoryBtn.Location = new System.Drawing.Point(174, 13);
+            this.delCategoryBtn.Location = new System.Drawing.Point(176, 11);
             this.delCategoryBtn.Name = "delCategoryBtn";
             this.delCategoryBtn.Size = new System.Drawing.Size(28, 23);
             this.delCategoryBtn.TabIndex = 5;
