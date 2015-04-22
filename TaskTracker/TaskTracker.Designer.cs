@@ -28,12 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.categoriesBox = new System.Windows.Forms.ComboBox();
             this.taskListBox = new System.Windows.Forms.ListBox();
             this.addCategoryBtn = new System.Windows.Forms.Button();
             this.taskTextBox = new System.Windows.Forms.TextBox();
             this.delCategoryBtn = new System.Windows.Forms.Button();
             this.addTaskBtn = new System.Windows.Forms.Button();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SuspendLayout();
             // 
             // categoriesBox
@@ -56,6 +58,7 @@
             this.taskListBox.Name = "taskListBox";
             this.taskListBox.Size = new System.Drawing.Size(259, 212);
             this.taskListBox.TabIndex = 1;
+            this.taskListBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.taskListMouseDown);
             // 
             // addCategoryBtn
             // 
@@ -96,6 +99,11 @@
             this.addTaskBtn.UseVisualStyleBackColor = true;
             this.addTaskBtn.Click += new System.EventHandler(this.AddTaskBtn);
             // 
+            // contextMenuStrip
+            // 
+            this.contextMenuStrip.Name = "contextMenuStrip";
+            this.contextMenuStrip.Size = new System.Drawing.Size(61, 4);
+            // 
             // taskTracker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -123,6 +131,7 @@
         private System.Windows.Forms.TextBox taskTextBox;
         private System.Windows.Forms.Button delCategoryBtn;
         private System.Windows.Forms.Button addTaskBtn;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
     }
 }
 

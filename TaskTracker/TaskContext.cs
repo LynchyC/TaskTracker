@@ -120,8 +120,8 @@ namespace TaskTracker
             // Grabs only the category names in the collection to become the data source for the drop down list.
             var filter = new BsonDocument();
             List<string> cats = new List<string>();           
-            var getCat = Categories.Find<Category>(filter)
-                        .Project(x => x.CategoryName).ToListAsync().Result;            
+            var getCat = await Categories.Find<Category>(filter)
+                        .Project(x => x.CategoryName).ToListAsync();            
             foreach (var item in getCat)
             {
                 cats.Add(item.ToString());

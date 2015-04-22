@@ -29,15 +29,15 @@ namespace TaskTracker
             categoriesBox.DataSource = categories;
         }
 
-        private async void LoadTaskList(object sender, EventArgs e) 
+        private async void LoadTaskList(object sender, EventArgs e)
         {
             // Ignores 'Select a category...' - Invalid category!
             if (categoriesBox.SelectedIndex != 0)
             {
                 // Grabs all the task names from the array inside the mongo collection
                 List<string> tasks = await task.FindTaskNames(categoriesBox.SelectedItem.ToString());
-                taskListBox.DataSource = tasks;    
-            }            
+                taskListBox.DataSource = tasks;
+            }
         }
 
         private void AddCategoryBtn(object sender, EventArgs e)
@@ -45,11 +45,11 @@ namespace TaskTracker
             AddCategory addCat = new AddCategory();
             // Runs AddCategory form - gets string value for created category. 
             DialogResult res = (DialogResult)addCat.ShowDialog();
-            if (res ==DialogResult.OK)           
-                LoadCategoryList(sender,e);
+            if (res == DialogResult.OK)
+                LoadCategoryList(sender, e);
             // Sets the drop down list to go directly to newly created category.
             int count = categoriesBox.Items.Count;
-            categoriesBox.SelectedIndex = count - 1;                     
+            categoriesBox.SelectedIndex = count - 1;
         }
 
         private async void DeleteCategoryBtn(object sender, EventArgs e)
@@ -62,14 +62,14 @@ namespace TaskTracker
                 if (result == DialogResult.OK)
                 {
                     await task.DeleteCategory(categoriesBox.SelectedItem.ToString());
-                    LoadCategoryList(sender,e);
+                    LoadCategoryList(sender, e);
                     taskListBox.DataSource = null;
                 }
             }
         }
 
-        private async void AddTaskBtn(object sender, EventArgs e) 
-        {                        
+        private async void AddTaskBtn(object sender, EventArgs e)
+        {
             if (taskTextBox.Text == string.Empty)
                 MessageBox.Show("Please enter a valid task name.");
             else if (categoriesBox.SelectedIndex == 0)
@@ -77,9 +77,34 @@ namespace TaskTracker
             else
             {
                 await task.InsertNewTask(taskTextBox.Text, categoriesBox.SelectedItem.ToString());
-                LoadTaskList(sender,e);
+                LoadTaskList(sender, e);
             }
             taskTextBox.Clear();
+        }
+
+        private async void taskListMouseDown(object sender, MouseEventArgs e)
+        {
+            if (categoriesBox.SelectedIndex != 0)
+            {
+                ContextMenu cm = new ContextMenu();
+                MenuItem openTask = new MenuItem("Open Task Details");
+                MenuItem delTask = new MenuItem("Delete Task");
+                MenuItem completeTask = new MenuItem("Set Task as Completed");
+                cm.MenuItems.AddRange(new MenuItem[] { openTask, delTask, completeTask });
+                taskListBox.ContextMenu = cm;
+                int index = this.taskListBox.IndexFromPoint(e.Location);
+                if (index != ListBox.NoMatches)
+                {
+                    switch (e.Button)
+                    {
+                        case MouseButtons.Right:
+                            {
+                                contextMenuStrip.Show(this, new Point(e.X, e.Y));
+                            }
+                            break;
+                    }
+                }
+            }
         }
     }
 }
