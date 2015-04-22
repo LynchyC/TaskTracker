@@ -30,17 +30,17 @@ namespace TaskTracker
             COLLECTION_NAME = collectionName();
         }
 
-        public IMongoClient Client 
+        public IMongoClient Client
         {
             get { return _client; }
         }
 
-        public IMongoCollection<Category> Categories 
+        public IMongoCollection<Category> Categories
         {
             get { return _database.GetCollection<Category>(COLLECTION_NAME); }
         }
 
-        public static string collectionName() 
+        public static string collectionName()
         {
             string collName = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
             if (collName.Contains("VOAITDEV"))
@@ -53,7 +53,7 @@ namespace TaskTracker
                 collName = collName.Replace(collName.Substring(0, collName.IndexOf("\\") + 1), "");
                 return collName;
             }
-            else                                    
+            else
                 return collName;
         }
 
@@ -72,7 +72,7 @@ namespace TaskTracker
         //        return mongoClient;
         //    }
         //}
-        
+
 
         //public IMongoCollection<Category> GetMongoCredentials() 
         //{
@@ -84,33 +84,33 @@ namespace TaskTracker
         //    return col;
         //}
         #endregion
-       
+
         public async Task<bool> InsertCategory(string categoryName)
-        {   
+        {
             // Creates an new instance of task to correct the issue of taskName and taskBody being entered later on.
             var doc = new Category
             {
                 CategoryName = categoryName,
                 DateStamp = DateTime.Now,
                 Task = new List<Task>()
-            };                                 
+            };
 
-            int count = 0;            
+            int count = 0;
             // Checks if the category name already exists.
             var query = Categories.Find<Category>(x => x.CategoryName == categoryName).Project(x => x.CategoryName).ToListAsync().Result;
-            foreach (var item in query)            
+            foreach (var item in query)
                 count++;
-             // If the check comes back with nothing then proceed with the insert.                        
-            if (count == 0)            
-                await Categories.InsertOneAsync(doc);                                          
-            else            
-                MessageBox.Show("Cannot have duplicate category names.");                
-                        
+            // If the check comes back with nothing then proceed with the insert.                        
+            if (count == 0)
+                await Categories.InsertOneAsync(doc);
+            else
+                MessageBox.Show("Cannot have duplicate category names.");
+
             return true;
         }
 
-        public async Task<bool> DeleteCategory(string categoryName) 
-        {            
+        public async Task<bool> DeleteCategory(string categoryName)
+        {
             var query = await Categories.DeleteOneAsync<Category>(x => x.CategoryName == categoryName);
             return true;
         }
@@ -119,9 +119,9 @@ namespace TaskTracker
         {
             // Grabs only the category names in the collection to become the data source for the drop down list.
             var filter = new BsonDocument();
-            List<string> cats = new List<string>();           
+            List<string> cats = new List<string>();
             var getCat = await Categories.Find<Category>(filter)
-                        .Project(x => x.CategoryName).ToListAsync();            
+                        .Project(x => x.CategoryName).ToListAsync();
             foreach (var item in getCat)
             {
                 cats.Add(item.ToString());
@@ -129,37 +129,51 @@ namespace TaskTracker
             return cats;
         }
 
-        public async Task<bool> InsertNewTask(string taskName,string catName)
+        public async Task<bool> InsertNewTask(string taskName, string catName)
         {
             // For now just adding the task name into the catergories             
             var doc = new Task
             {
+                //_id = ObjectId.GenerateNewId(),
                 TaskName = taskName,
                 DateStamp = DateTime.Now
             };
-            
+
             // Check if task name already exists
             var list = await FindTaskNames(catName);
-            foreach (var item in list)
+            if (list.Count() != 0)
             {
-                if (item.ToString().ToLower() == taskName.ToLower())                
-                    MessageBox.Show("Cannot have duplicate task names.");
-                else
+                foreach (var item in list)
                 {
-                    // Find what category the task should be entered in to then updating it.
-                    var update = await Categories.UpdateOneAsync(x => x.CategoryName == catName, Builders<Category>.Update.Push(x => x.Task, doc));
-                }                
-            }                        
+                    if (item.ToString().ToLower() == taskName.ToLower())
+                    {
+                        MessageBox.Show("Cannot have duplicate task names.");
+                        return true;
+                    }
+                }
+            }
+            
+            // Find what category the task should be entered in to then updating it.
+            var update = await Categories.UpdateOneAsync(x => x.CategoryName == catName, Builders<Category>.Update.Push(x => x.Task, doc));
             return true;
         }
 
-        public async Task<List<string>> FindTaskNames(string catName) 
+        public async Task<List<string>> FindTaskNames(string catName)
         {
             // Grabs all the task names in the passed category
             var taskNames = await Categories.Find(x => x.CategoryName == catName)
                             .Project(x => x.Task.Select(y => y.TaskName))
                             .ToListAsync();
             return taskNames[0].ToList();
+        }
+
+        public async Task<bool> DeleteTask(string catName, string taskName)
+        {
+            var builder = Builders<Category>.Filter;
+            var filter = builder.And(builder.Eq(x => x.CategoryName, catName), builder.Eq("tasks.name", taskName));
+            var query = Builders<Category>.Update.Pull("tasks", new BsonDocument() { { "name", taskName} });
+            await Categories.FindOneAndUpdateAsync(filter, query);
+            return true;
         }
     }
 }

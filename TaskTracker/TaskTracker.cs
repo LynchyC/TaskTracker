@@ -82,16 +82,15 @@ namespace TaskTracker
             taskTextBox.Clear();
         }
 
-        private async void taskListMouseDown(object sender, MouseEventArgs e)
+        private void taskListMouseDown(object sender, MouseEventArgs e)
         {
             if (categoriesBox.SelectedIndex != 0)
             {
-                ContextMenu cm = new ContextMenu();
-                MenuItem openTask = new MenuItem("Open Task Details");
-                MenuItem delTask = new MenuItem("Delete Task");
-                MenuItem completeTask = new MenuItem("Set Task as Completed");
-                cm.MenuItems.AddRange(new MenuItem[] { openTask, delTask, completeTask });
-                taskListBox.ContextMenu = cm;
+                ContextMenuStrip cm = new ContextMenuStrip();
+                //ToolStripItem openTaskDetails = cm.Items.Add("Open Task Details");
+                //ToolStripItem delTask = cm.Items.Add("Delete Task");
+                //ToolStripItem completeTask = cm.Items.Add("Set Task as Completed");
+                taskListBox.ContextMenuStrip = cm;
                 int index = this.taskListBox.IndexFromPoint(e.Location);
                 if (index != ListBox.NoMatches)
                 {
@@ -104,6 +103,16 @@ namespace TaskTracker
                             break;
                     }
                 }
+            }
+        }
+
+        private async void delTaskClick(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Are you sure you want to delete the Task: '" + taskListBox.SelectedItem.ToString() + "'?", "Delete Task", MessageBoxButtons.OKCancel);
+            if (result == DialogResult.OK)
+            {
+                await task.DeleteTask(categoriesBox.SelectedItem.ToString(), taskListBox.SelectedItem.ToString());
+                LoadTaskList(sender, e);
             }
         }
     }
