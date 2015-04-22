@@ -20,7 +20,12 @@ namespace TaskTracker
         [BsonElement("dateCreated")]
         public DateTime DateStamp { get; set; }
        
-        [BsonElement("tasks")]        
-        public List<TaskTracker.Task> Task { get; set; }
+        [BsonElement("current_tasks")]        
+        public List<TaskTracker.CurrentTask> CurrentTask { get; set; }
+
+        [BsonElement("completed_tasks")]
+        public List<TaskTracker.CompletedTask> CompletedTask { get; set; }
+
+
     }
 }

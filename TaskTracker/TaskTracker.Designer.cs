@@ -39,8 +39,11 @@
             this.openTaskDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setTaskAsCompletedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.createNewTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.currentTasksTab = new System.Windows.Forms.TabControl();
+            this.completedtabPage = new System.Windows.Forms.TabPage();
+            this.currenttabPage = new System.Windows.Forms.TabPage();
             this.contextMenuStrip.SuspendLayout();
+            this.currentTasksTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // categoriesBox
@@ -60,9 +63,9 @@
             | System.Windows.Forms.AnchorStyles.Left)));
             this.taskListBox.ContextMenuStrip = this.contextMenuStrip;
             this.taskListBox.FormattingEnabled = true;
-            this.taskListBox.Location = new System.Drawing.Point(13, 40);
+            this.taskListBox.Location = new System.Drawing.Point(12, 60);
             this.taskListBox.Name = "taskListBox";
-            this.taskListBox.Size = new System.Drawing.Size(259, 212);
+            this.taskListBox.Size = new System.Drawing.Size(259, 225);
             this.taskListBox.TabIndex = 1;
             this.taskListBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.taskListMouseDown);
             // 
@@ -79,7 +82,7 @@
             // taskTextBox
             // 
             this.taskTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.taskTextBox.Location = new System.Drawing.Point(13, 258);
+            this.taskTextBox.Location = new System.Drawing.Point(13, 298);
             this.taskTextBox.Name = "taskTextBox";
             this.taskTextBox.Size = new System.Drawing.Size(121, 20);
             this.taskTextBox.TabIndex = 4;
@@ -97,7 +100,7 @@
             // addTaskBtn
             // 
             this.addTaskBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addTaskBtn.Location = new System.Drawing.Point(140, 256);
+            this.addTaskBtn.Location = new System.Drawing.Point(140, 296);
             this.addTaskBtn.Name = "addTaskBtn";
             this.addTaskBtn.Size = new System.Drawing.Size(75, 23);
             this.addTaskBtn.TabIndex = 6;
@@ -110,15 +113,14 @@
             this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openTaskDetailsToolStripMenuItem,
             this.deleteTaskToolStripMenuItem,
-            this.setTaskAsCompletedToolStripMenuItem,
-            this.createNewTaskToolStripMenuItem});
+            this.setTaskAsCompletedToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(194, 92);
+            this.contextMenuStrip.Size = new System.Drawing.Size(194, 70);
             // 
             // openTaskDetailsToolStripMenuItem
             // 
             this.openTaskDetailsToolStripMenuItem.Name = "openTaskDetailsToolStripMenuItem";
-            this.openTaskDetailsToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.openTaskDetailsToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.openTaskDetailsToolStripMenuItem.Text = "Open Task Details";
             // 
             // deleteTaskToolStripMenuItem
@@ -134,27 +136,53 @@
             this.setTaskAsCompletedToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.setTaskAsCompletedToolStripMenuItem.Text = "Set Task as Completed";
             // 
-            // createNewTaskToolStripMenuItem
+            // currentTasksTab
             // 
-            this.createNewTaskToolStripMenuItem.Name = "createNewTaskToolStripMenuItem";
-            this.createNewTaskToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
-            this.createNewTaskToolStripMenuItem.Text = "Create New Task";
+            this.currentTasksTab.Controls.Add(this.currenttabPage);
+            this.currentTasksTab.Controls.Add(this.completedtabPage);
+            this.currentTasksTab.Location = new System.Drawing.Point(12, 40);
+            this.currentTasksTab.Name = "currentTasksTab";
+            this.currentTasksTab.SelectedIndex = 0;
+            this.currentTasksTab.Size = new System.Drawing.Size(178, 25);
+            this.currentTasksTab.TabIndex = 7;
+            // 
+            // completedtabPage
+            // 
+            this.completedtabPage.Location = new System.Drawing.Point(4, 22);
+            this.completedtabPage.Name = "completedtabPage";
+            this.completedtabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.completedtabPage.Size = new System.Drawing.Size(170, 0);
+            this.completedtabPage.TabIndex = 1;
+            this.completedtabPage.Text = "Completed Tasks";
+            this.completedtabPage.UseVisualStyleBackColor = true;
+            // 
+            // currenttabPage
+            // 
+            this.currenttabPage.Location = new System.Drawing.Point(4, 22);
+            this.currenttabPage.Name = "currenttabPage";
+            this.currenttabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.currenttabPage.Size = new System.Drawing.Size(170, 0);
+            this.currenttabPage.TabIndex = 0;
+            this.currenttabPage.Text = "Current Tasks";
+            this.currenttabPage.UseVisualStyleBackColor = true;
             // 
             // taskTracker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 290);
+            this.ClientSize = new System.Drawing.Size(284, 330);
+            this.Controls.Add(this.taskListBox);
+            this.Controls.Add(this.currentTasksTab);
             this.Controls.Add(this.addTaskBtn);
             this.Controls.Add(this.delCategoryBtn);
             this.Controls.Add(this.taskTextBox);
             this.Controls.Add(this.addCategoryBtn);
-            this.Controls.Add(this.taskListBox);
             this.Controls.Add(this.categoriesBox);
             this.Name = "taskTracker";
             this.Text = "Task Tracker";
             this.Load += new System.EventHandler(this.LoadCategoryList);
             this.contextMenuStrip.ResumeLayout(false);
+            this.currentTasksTab.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -172,7 +200,9 @@
         private System.Windows.Forms.ToolStripMenuItem openTaskDetailsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem deleteTaskToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setTaskAsCompletedToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem createNewTaskToolStripMenuItem;
+        private System.Windows.Forms.TabControl currentTasksTab;
+        private System.Windows.Forms.TabPage currenttabPage;
+        private System.Windows.Forms.TabPage completedtabPage;
     }
 }
 

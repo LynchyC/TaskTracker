@@ -8,7 +8,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace TaskTracker
 {
-    public class Task
+    public class CompletedTask
     {
         [BsonElement("name")]
         public string TaskName { get; set; }

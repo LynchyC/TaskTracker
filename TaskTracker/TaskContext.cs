@@ -92,7 +92,7 @@ namespace TaskTracker
             {
                 CategoryName = categoryName,
                 DateStamp = DateTime.Now,
-                Task = new List<Task>()
+                CurrentTask = new List<CurrentTask>()
             };
 
             // Checks if the category name already exists.
@@ -134,7 +134,7 @@ namespace TaskTracker
         public async Task<bool> InsertNewTask(string taskName, string catName)
         {
             // For now just adding the task name and datestamp into the tasks            
-            var doc = new Task
+            var doc = new CurrentTask
             {
                 TaskName = taskName,
                 DateStamp = DateTime.Now
@@ -155,7 +155,7 @@ namespace TaskTracker
             }
 
             // Find what category the task should be entered in to then updating it.
-            var update = await Categories.UpdateOneAsync(x => x.CategoryName == catName, Builders<Category>.Update.Push(x => x.Task, doc));
+            var update = await Categories.UpdateOneAsync(x => x.CategoryName == catName, Builders<Category>.Update.Push(x => x.CurrentTask, doc));
             return true;
         }
 
@@ -163,7 +163,7 @@ namespace TaskTracker
         {
             // Grabs all the task names in the passed category
             var taskNames = await Categories.Find(x => x.CategoryName == catName)
-                            .Project(x => x.Task.Select(y => y.TaskName))
+                            .Project(x => x.CurrentTask.Select(y => y.TaskName))
                             .ToListAsync();
             return taskNames[0].ToList();
         }
@@ -171,8 +171,8 @@ namespace TaskTracker
         public async Task<bool> DeleteTask(string catName, string taskName)
         {
             var builder = Builders<Category>.Filter;
-            var filter = builder.And(builder.Eq(x => x.CategoryName, catName), builder.Eq("tasks.name", taskName));
-            var query = Builders<Category>.Update.Pull("tasks", new BsonDocument() { { "name", taskName } });
+            var filter = builder.And(builder.Eq(x => x.CategoryName, catName), builder.Eq("current_tasks.name", taskName));
+            var query = Builders<Category>.Update.Pull("current_tasks", new BsonDocument() { { "name", taskName } });
             await Categories.FindOneAndUpdateAsync(filter, query);
             return true;
         }
