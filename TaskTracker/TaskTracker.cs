@@ -38,6 +38,8 @@ namespace TaskTracker
                 List<string> tasks = await task.FindTaskNames(categoriesBox.SelectedItem.ToString());
                 taskListBox.DataSource = tasks;
             }
+            else
+                taskListBox.DataSource = null;           
         }
 
         private void AddCategoryBtn(object sender, EventArgs e)
@@ -87,9 +89,6 @@ namespace TaskTracker
             if (categoriesBox.SelectedIndex != 0)
             {
                 ContextMenuStrip cm = new ContextMenuStrip();
-                //ToolStripItem openTaskDetails = cm.Items.Add("Open Task Details");
-                //ToolStripItem delTask = cm.Items.Add("Delete Task");
-                //ToolStripItem completeTask = cm.Items.Add("Set Task as Completed");
                 taskListBox.ContextMenuStrip = cm;
                 int index = this.taskListBox.IndexFromPoint(e.Location);
                 if (index != ListBox.NoMatches)
