@@ -10,8 +10,8 @@ namespace TaskTracker
     public class Category
     {
 
-        //[BsonRepresentation(MongoDB.Bson.BsonType.ObjectId)]
-        //public string _id { get; set; }
+        [BsonId]
+        public MongoDB.Bson.ObjectId _id { get; set; }
 
         [BsonElement("name")]
         public string CategoryName { get; set; }

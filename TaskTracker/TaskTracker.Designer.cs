@@ -36,6 +36,11 @@
             this.delCategoryBtn = new System.Windows.Forms.Button();
             this.addTaskBtn = new System.Windows.Forms.Button();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.openTaskDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.deleteTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setTaskAsCompletedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createNewTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // categoriesBox
@@ -53,6 +58,7 @@
             // 
             this.taskListBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.taskListBox.ContextMenuStrip = this.contextMenuStrip;
             this.taskListBox.FormattingEnabled = true;
             this.taskListBox.Location = new System.Drawing.Point(13, 40);
             this.taskListBox.Name = "taskListBox";
@@ -101,8 +107,38 @@
             // 
             // contextMenuStrip
             // 
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openTaskDetailsToolStripMenuItem,
+            this.deleteTaskToolStripMenuItem,
+            this.setTaskAsCompletedToolStripMenuItem,
+            this.createNewTaskToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(61, 4);
+            this.contextMenuStrip.Size = new System.Drawing.Size(194, 92);
+            // 
+            // openTaskDetailsToolStripMenuItem
+            // 
+            this.openTaskDetailsToolStripMenuItem.Name = "openTaskDetailsToolStripMenuItem";
+            this.openTaskDetailsToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
+            this.openTaskDetailsToolStripMenuItem.Text = "Open Task Details";
+            // 
+            // deleteTaskToolStripMenuItem
+            // 
+            this.deleteTaskToolStripMenuItem.Name = "deleteTaskToolStripMenuItem";
+            this.deleteTaskToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.deleteTaskToolStripMenuItem.Text = "Delete Task";
+            this.deleteTaskToolStripMenuItem.Click += new System.EventHandler(this.delTaskClick);
+            // 
+            // setTaskAsCompletedToolStripMenuItem
+            // 
+            this.setTaskAsCompletedToolStripMenuItem.Name = "setTaskAsCompletedToolStripMenuItem";
+            this.setTaskAsCompletedToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.setTaskAsCompletedToolStripMenuItem.Text = "Set Task as Completed";
+            // 
+            // createNewTaskToolStripMenuItem
+            // 
+            this.createNewTaskToolStripMenuItem.Name = "createNewTaskToolStripMenuItem";
+            this.createNewTaskToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.createNewTaskToolStripMenuItem.Text = "Create New Task";
             // 
             // taskTracker
             // 
@@ -118,6 +154,7 @@
             this.Name = "taskTracker";
             this.Text = "Task Tracker";
             this.Load += new System.EventHandler(this.LoadCategoryList);
+            this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -132,6 +169,10 @@
         private System.Windows.Forms.Button delCategoryBtn;
         private System.Windows.Forms.Button addTaskBtn;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem openTaskDetailsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteTaskToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setTaskAsCompletedToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem createNewTaskToolStripMenuItem;
     }
 }
 
