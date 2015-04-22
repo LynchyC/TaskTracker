@@ -22,6 +22,7 @@ namespace TaskTracker
 
         private async void LoadCategoryList(object sender, EventArgs e)
         {
+            //await task.CreateIndex();
             // Grabs all the category names from the mongo collection
             List<string> categories = await task.FindCategoryNames();
             // Create the default value to guide the user. 
@@ -34,9 +35,13 @@ namespace TaskTracker
             // Ignores 'Select a category...' - Invalid category!
             if (categoriesBox.SelectedIndex != 0)
             {
+                string tabIndex = tasksTab.SelectedIndex.ToString();
                 // Grabs all the task names from the array inside the mongo collection
-                List<string> tasks = await task.FindTaskNames(categoriesBox.SelectedItem.ToString());
-                taskListBox.DataSource = tasks;
+                List<string> tasks = await task.FindTaskNames(categoriesBox.SelectedItem.ToString(),tabIndex);
+                if (tasks.Count() == 0)
+                    taskListBox.DataSource = null;
+                else                                                
+                    taskListBox.DataSource = tasks;
             }
             else
                 taskListBox.DataSource = null;           
@@ -50,8 +55,7 @@ namespace TaskTracker
             if (res == DialogResult.OK)
                 LoadCategoryList(sender, e);
             // Sets the drop down list to go directly to newly created category.
-            int count = categoriesBox.Items.Count;
-            categoriesBox.SelectedIndex = count - 1;
+            //categoriesBox.SelectedIndex = categoriesBox.Items.Count - 1;
         }
 
         private async void DeleteCategoryBtn(object sender, EventArgs e)
@@ -78,7 +82,7 @@ namespace TaskTracker
                 MessageBox.Show("Please have a valid category selected.");
             else
             {
-                await task.InsertNewTask(taskTextBox.Text, categoriesBox.SelectedItem.ToString());
+                await task.InsertNewTask(taskTextBox.Text, categoriesBox.SelectedItem.ToString(), "0");
                 LoadTaskList(sender, e);
             }
             taskTextBox.Clear();

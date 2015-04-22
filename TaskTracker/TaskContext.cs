@@ -27,7 +27,7 @@ namespace TaskTracker
             var connectionString = ConfigurationManager.ConnectionStrings["prod"].ConnectionString;
             _client = new MongoClient(connectionString);
             _database = _client.GetDatabase(DATABASE_NAME);
-            COLLECTION_NAME = collectionName();
+            COLLECTION_NAME = collectionName();            
         }
 
         public IMongoClient Client
@@ -37,7 +37,7 @@ namespace TaskTracker
 
         public IMongoCollection<Category> Categories
         {
-            get { return _database.GetCollection<Category>(COLLECTION_NAME); }
+            get { return _database.GetCollection<Category>(COLLECTION_NAME); }            
         }
 
         public static string collectionName()
@@ -55,6 +55,11 @@ namespace TaskTracker
             }
             else
                 return collName;
+        }
+
+        public async Task CreateIndex() 
+        {
+            await Categories.Indexes.CreateOneAsync(Builders<Category>.IndexKeys.Ascending(x => x.CategoryName));
         }
 
         #region
@@ -92,7 +97,8 @@ namespace TaskTracker
             {
                 CategoryName = categoryName,
                 DateStamp = DateTime.Now,
-                CurrentTask = new List<CurrentTask>()
+                CurrentTask = new List<CurrentTask>(),
+                CompletedTask = new List<CompletedTask>()
             };
 
             // Checks if the category name already exists.
@@ -125,13 +131,13 @@ namespace TaskTracker
             List<string> cats = new List<string>();
             var getCat = await Categories.Find<Category>(filter)
                         .Project(x => x.CategoryName).ToListAsync();
-            foreach (var item in getCat)            
+            foreach (var item in getCat)
                 cats.Add(item.ToString());
-            
+
             return cats;
         }
 
-        public async Task<bool> InsertNewTask(string taskName, string catName)
+        public async Task<bool> InsertNewTask(string taskName, string catName, string index)
         {
             // For now just adding the task name and datestamp into the tasks            
             var doc = new CurrentTask
@@ -141,7 +147,7 @@ namespace TaskTracker
             };
 
             // Check if task name already exists -- Measure to avoid duplicates in collection
-            var list = await FindTaskNames(catName);
+            var list = await FindTaskNames(catName, index);
             if (list.Count() != 0)
             {
                 foreach (var item in list)
@@ -159,13 +165,23 @@ namespace TaskTracker
             return true;
         }
 
-        public async Task<List<string>> FindTaskNames(string catName)
+        public async Task<List<string>> FindTaskNames(string catName, string index)
         {
-            // Grabs all the task names in the passed category
-            var taskNames = await Categories.Find(x => x.CategoryName == catName)
-                            .Project(x => x.CurrentTask.Select(y => y.TaskName))
-                            .ToListAsync();
-            return taskNames[0].ToList();
+            // Grabs all the task names in the passed category            
+            if (index == "0")
+            {
+                var taskNames = await Categories.Find(x => x.CategoryName == catName)
+                                .Project(x => x.CurrentTask.Select(y => y.TaskName))
+                                .ToListAsync();
+                return taskNames[0].ToList();
+            }
+            else
+            {
+                var taskNames = await Categories.Find(x => x.CategoryName == catName)
+                                .Project(x => x.CompletedTask.Select(y => y.TaskName))
+                                .ToListAsync();
+                return taskNames[0].ToList(); 
+            }
         }
 
         public async Task<bool> DeleteTask(string catName, string taskName)
