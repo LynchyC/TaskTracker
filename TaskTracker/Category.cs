@@ -9,7 +9,6 @@ namespace TaskTracker
 {
     public class Category
     {
-
         [BsonId]
         public MongoDB.Bson.ObjectId _id { get; set; }
 
@@ -21,11 +20,9 @@ namespace TaskTracker
         public DateTime DateStamp { get; set; }
        
         [BsonElement("current_tasks")]        
-        public List<TaskTracker.CurrentTask> CurrentTask { get; set; }
+        public List<TaskTracker.Task> CurrentTask { get; set; }
 
         [BsonElement("completed_tasks")]
-        public List<TaskTracker.CompletedTask> CompletedTask { get; set; }
-
-
+        public List<TaskTracker.Task> CompletedTask { get; set; }
     }
 }

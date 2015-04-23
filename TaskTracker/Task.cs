@@ -8,7 +8,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace TaskTracker
 {
-    public class CompletedTask
+    public class Task
     {
         [BsonElement("name")]
         public string TaskName { get; set; }
@@ -19,5 +19,8 @@ namespace TaskTracker
         [BsonDateTimeOptions]
         [BsonElement("dateCreated")]
         public DateTime DateStamp { get; set; }
+
+        [BsonElement("status")]
+        public string Status { get; set; }
     }
 }
