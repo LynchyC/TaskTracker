@@ -10,7 +10,7 @@ namespace TaskTracker
 {
     public class Task
     {
-        [BsonElement("name")]
+        [BsonElement("task_name")]
         public string TaskName { get; set; }
 
         [BsonElement("body")]
@@ -22,5 +22,7 @@ namespace TaskTracker
 
         [BsonElement("status")]
         public string Status { get; set; }
+
+        public enum _Status { Current, Completed }
     }
 }
