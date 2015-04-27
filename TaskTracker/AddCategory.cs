@@ -12,18 +12,19 @@ namespace TaskTracker
 {
     public partial class AddCategory : Form
     {
+        public string CategoryName = "";
+
         public AddCategory()
         {
             InitializeComponent();
         }
 
-        public async void AddCategoryBtn(object sender, EventArgs e) 
+        public void AddCategoryBtn(object sender, EventArgs e) 
         {
-            TaskContext task = new TaskContext();
-            if (categoryName.Text == string.Empty)
+            if (catName.Text == string.Empty)
                 MessageBox.Show("Please insert a valid Category name");
             else
-                await task.InsertCategory(categoryName.Text);                           
+                CategoryName = catName.Text;
         }
     }
 }

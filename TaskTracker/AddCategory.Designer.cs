@@ -28,16 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.categoryName = new System.Windows.Forms.TextBox();
+            this.catName = new System.Windows.Forms.TextBox();
             this.addCategoryBtn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // categoryName
+            // catName
             // 
-            this.categoryName.Location = new System.Drawing.Point(12, 12);
-            this.categoryName.Name = "categoryName";
-            this.categoryName.Size = new System.Drawing.Size(184, 20);
-            this.categoryName.TabIndex = 0;
+            this.catName.Location = new System.Drawing.Point(12, 12);
+            this.catName.Name = "catName";
+            this.catName.Size = new System.Drawing.Size(184, 20);
+            this.catName.TabIndex = 0;
             // 
             // addCategoryBtn
             // 
@@ -56,7 +56,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(278, 43);
             this.Controls.Add(this.addCategoryBtn);
-            this.Controls.Add(this.categoryName);
+            this.Controls.Add(this.catName);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -69,7 +69,7 @@
 
         #endregion
 
-        private System.Windows.Forms.TextBox categoryName;
+        private System.Windows.Forms.TextBox catName;
         private System.Windows.Forms.Button addCategoryBtn;
     }
 }
