@@ -10,6 +10,9 @@ namespace TaskTracker
 {
     public class Task
     {
+        [BsonId]
+        public MongoDB.Bson.ObjectId _id { get; set; }
+
         [BsonElement("task_name")]
         public string TaskName { get; set; }
 
