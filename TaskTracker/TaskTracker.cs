@@ -20,42 +20,60 @@ namespace TaskTracker
             InitializeComponent();
         }
 
-        private async void LoadCategoryList(object sender, EventArgs e)
+        private async void FormLoad(object sender, EventArgs e) 
         {
-            //await task.CreateIndex();
+            await LoadCategoryList();
+        }
+
+        private async void TaskLoad(object sender, EventArgs e) 
+        {
+            await LoadTaskList();
+        }
+
+        private async Task<bool> LoadCategoryList()
+        {
+            await task.CreateIndex();
             // Grabs all the category names from the mongo collection
             List<string> categories = await task.FindCategoryNames();
             // Create the default value to guide the user. 
             categories.Insert(0, "Select a category...");
             categoriesBox.DataSource = categories;
+            return true;
         }
 
-        private async void LoadTaskList(object sender, EventArgs e)
+        private async Task<bool> LoadTaskList()
         {
             // Ignores 'Select a category...' - Invalid category!
             if (categoriesBox.SelectedIndex != 0)
             {
-                string tabIndex = tasksTab.SelectedIndex.ToString();
                 // Grabs all the task names from the array inside the mongo collection
-                List<string> tasks = await task.FindTaskNames(categoriesBox.SelectedItem.ToString(),tabIndex);
-                if (tasks.Count() == 0)
-                    taskListBox.DataSource = null;
-                else                                                
-                    taskListBox.DataSource = tasks;
+                List<string> currenttasks = await task.FindCurrentTaskNames(categoriesBox.SelectedItem.ToString());                                              
+                currentTaskListBox.DataSource = currenttasks;
+
+                List<string> completedTasks = await task.FindCompletedTaskNames(categoriesBox.SelectedItem.ToString());
+                completedTaskListBox.DataSource = completedTasks;
             }
             else
-                taskListBox.DataSource = null;           
+            {
+                currentTaskListBox.DataSource = null;
+                completedTaskListBox.DataSource = null;
+            }
+
+            return true;
         }
 
-        private void AddCategoryBtn(object sender, EventArgs e)
+        private async void AddCategoryBtn(object sender, EventArgs e)
         {
             AddCategory addCat = new AddCategory();
             // Runs AddCategory form - gets string value for created category. 
             DialogResult res = (DialogResult)addCat.ShowDialog();
-            if (res == DialogResult.OK)
-                LoadCategoryList(sender, e);
-            // Sets the drop down list to go directly to newly created category.
-            //categoriesBox.SelectedIndex = categoriesBox.Items.Count - 1;
+            if (res == DialogResult.OK) 
+            {
+                await task.InsertCategory(addCat.CategoryName);
+                await LoadCategoryList();
+                // Sets the drop down list to go directly to newly created category.
+                categoriesBox.SelectedIndex = categoriesBox.Items.Count - 1;
+            }
         }
 
         private async void DeleteCategoryBtn(object sender, EventArgs e)
@@ -68,8 +86,8 @@ namespace TaskTracker
                 if (result == DialogResult.OK)
                 {
                     await task.DeleteCategory(categoriesBox.SelectedItem.ToString());
-                    LoadCategoryList(sender, e);
-                    taskListBox.DataSource = null;
+                    await LoadCategoryList();
+                    completedTaskListBox.DataSource = null;
                 }
             }
         }
@@ -83,18 +101,29 @@ namespace TaskTracker
             else
             {
                 await task.InsertNewTask(taskTextBox.Text, categoriesBox.SelectedItem.ToString(), "0");
-                LoadTaskList(sender, e);
+                await LoadTaskList();
             }
             taskTextBox.Clear();
         }
 
         private void taskListMouseDown(object sender, MouseEventArgs e)
         {
+            int index = 0;
             if (categoriesBox.SelectedIndex != 0)
             {
-                ContextMenuStrip cm = new ContextMenuStrip();
-                taskListBox.ContextMenuStrip = cm;
-                int index = this.taskListBox.IndexFromPoint(e.Location);
+                ContextMenuStrip cm = new ContextMenuStrip();                
+                tasksTab.ContextMenuStrip = cm;
+                if (tasksTab.SelectedTab.Tag.ToString() != "current")
+                {
+                    c.Text = "Set Task as Current";
+                    index = this.completedTaskListBox.IndexFromPoint(e.Location);
+                }
+                else
+                {
+                    c.Text = "Set Task as Completed";
+                    index = this.currentTaskListBox.IndexFromPoint(e.Location);
+                }
+                
                 if (index != ListBox.NoMatches)
                 {
                     switch (e.Button)
@@ -111,12 +140,28 @@ namespace TaskTracker
 
         private async void delTaskClick(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("Are you sure you want to delete the Task: '" + taskListBox.SelectedItem.ToString() + "'?", "Delete Task", MessageBoxButtons.OKCancel);
+            DialogResult result = new DialogResult();
+            string taskName = WhichTab(tasksTab.SelectedTab.Tag.ToString());
+            result = MessageBox.Show("Are you sure you want to delete the Task: '" + taskName + "'?", "Delete Task", MessageBoxButtons.OKCancel);
+
             if (result == DialogResult.OK)
             {
-                await task.DeleteTask(categoriesBox.SelectedItem.ToString(), taskListBox.SelectedItem.ToString());
-                LoadTaskList(sender, e);
+                await task.DeleteTask(categoriesBox.SelectedItem.ToString(),taskName);
+                await LoadTaskList();
             }
+        }
+
+        private async void taskStatus(object sender, EventArgs e) 
+        {
+            string tab = tasksTab.SelectedTab.Tag.ToString() == "current" ? Task._Status.Current.ToString() : Task._Status.Completed.ToString();
+            await task.TaskStatus(categoriesBox.SelectedItem.ToString(), WhichTab(tasksTab.SelectedTab.Tag.ToString()), tab);
+            await LoadTaskList();
+        }
+
+        private string WhichTab(string tag) 
+        {
+            string taskName = tasksTab.SelectedTab.Tag.ToString() == "current" ? currentTaskListBox.SelectedItem.ToString() : completedTaskListBox.SelectedItem.ToString();
+            return taskName;
         }
     }
 }

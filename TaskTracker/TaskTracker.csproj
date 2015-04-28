@@ -68,8 +68,7 @@
       <DependentUpon>AddCategory.cs</DependentUpon>
     </Compile>
     <Compile Include="Category.cs" />
-    <Compile Include="CompletedTask.cs" />
-    <Compile Include="CurrentTask.cs" />
+    <Compile Include="Task.cs" />
     <Compile Include="TaskContext.cs" />
     <Compile Include="TaskTracker.cs">
       <SubType>Form</SubType>
