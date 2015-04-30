@@ -145,7 +145,7 @@ namespace TaskTracker
             };
 
             // Check if task name already exists -- Measure to avoid duplicates in collection
-            var list = await FindCurrentTaskNames(catName);
+            var list = await FindTaskNamesByTab(catName, index);
             if (list.Count() != 0)
             {
                 foreach (var item in list)
@@ -163,29 +163,24 @@ namespace TaskTracker
             return true;
         }
 
-        public async Task<List<string>> FindCurrentTaskNames(string catName)
+        public async Task<List<string>> FindTaskNamesByTab(string catName, string index)
         {
             // Grabs all the current task names in the passed category
+            string tag = index == "current" ? Task._Status.Current.ToString() : Task._Status.Completed.ToString();
+            List<string> tasks = new List<string>();
             var builder = Builders<Category>.Filter;
-            var filter = builder.And(builder.Eq("name", catName), builder.Eq("tasks.status", Task._Status.Current.ToString()));
-            var taskNames = await Categories.Find(filter)
-                            .Project(x => x.Task.Select(y => y.TaskName))
-                            .ToListAsync();
-            if (taskNames.Count > 0)
-                return taskNames[0].ToList();            
-            else            
-                return new List<string>();            
-        }
+            var filter = builder.And(builder.Eq(x => x.CategoryName, catName), builder.Eq("tasks.status", tag));
+            var find = await Categories.Find<Category>(filter).ToListAsync<Category>();
+            if (find.Count > 0)
+            {
+                foreach (var item in find[0].Task)
+                {
+                    if (item.Status == tag)
+                        tasks.Add(item.TaskName);
+                }
 
-        public async Task<List<string>> FindCompletedTaskNames(string catName)
-        {
-            var builder = Builders<Category>.Filter;
-            var filter = builder.And(builder.Eq("name", catName), builder.Eq("tasks.status", Task._Status.Completed.ToString()));
-            var taskNames = await Categories.Find(filter)
-                .Project(x => x.Task.Select(y => y.TaskName))
-                .ToListAsync();
-            if (taskNames.Count > 0)
-                return taskNames[0].ToList();
+                return tasks;
+            }
             else
                 return new List<string>();            
         }
@@ -215,10 +210,14 @@ namespace TaskTracker
             string id = "";
             var builder = Builders<Category>.Filter;
             var filter = builder.And(builder.Eq(x => x.CategoryName, catName), builder.Eq("tasks.task_name", taskName));
-            var find = await Categories.Find<Category>(filter).Project(x => x.Task.Select(y => y._id)).FirstAsync();
-            foreach (var item in find)
-            {
-                id = item.ToString();
+            var find = await Categories.Find<Category>(filter).ToListAsync<Category>();
+            List<Task> tasks = new List<Task>();
+            foreach (var item in find[0].Task)
+            {                
+                if (item.TaskName == taskName)                
+                    id = item._id.ToString();                    
+                else                
+                    continue;                                
             }                
             return id;
         }

@@ -47,10 +47,10 @@ namespace TaskTracker
             if (categoriesBox.SelectedIndex != 0)
             {
                 // Grabs all the task names from the array inside the mongo collection
-                List<string> currenttasks = await task.FindCurrentTaskNames(categoriesBox.SelectedItem.ToString());                                              
+                List<string> currenttasks = await task.FindTaskNamesByTab(categoriesBox.SelectedItem.ToString(), "current");                                              
                 currentTaskListBox.DataSource = currenttasks;
 
-                List<string> completedTasks = await task.FindCompletedTaskNames(categoriesBox.SelectedItem.ToString());
+                List<string> completedTasks = await task.FindTaskNamesByTab(categoriesBox.SelectedItem.ToString(),"completed");
                 completedTaskListBox.DataSource = completedTasks;
             }
             else
@@ -100,7 +100,7 @@ namespace TaskTracker
                 MessageBox.Show("Please have a valid category selected.");
             else
             {
-                await task.InsertNewTask(taskTextBox.Text, categoriesBox.SelectedItem.ToString(), "0");
+                await task.InsertNewTask(taskTextBox.Text, categoriesBox.SelectedItem.ToString(), "current");
                 await LoadTaskList();
             }
             taskTextBox.Clear();
@@ -141,7 +141,7 @@ namespace TaskTracker
         private async void delTaskClick(object sender, EventArgs e)
         {
             DialogResult result = new DialogResult();
-            string taskName = WhichTab(tasksTab.SelectedTab.Tag.ToString());
+            string taskName = WhichTabIsTaskSelected(tasksTab.SelectedTab.Tag.ToString());
             result = MessageBox.Show("Are you sure you want to delete the Task: '" + taskName + "'?", "Delete Task", MessageBoxButtons.OKCancel);
 
             if (result == DialogResult.OK)
@@ -154,14 +154,14 @@ namespace TaskTracker
         private async void taskStatus(object sender, EventArgs e) 
         {
             string tab = tasksTab.SelectedTab.Tag.ToString() == "current" ? Task._Status.Current.ToString() : Task._Status.Completed.ToString();
-            await task.TaskStatus(categoriesBox.SelectedItem.ToString(), WhichTab(tasksTab.SelectedTab.Tag.ToString()), tab);
+            await task.TaskStatus(categoriesBox.SelectedItem.ToString(), WhichTabIsTaskSelected(tasksTab.SelectedTab.Tag.ToString()), tab);
             await LoadTaskList();
         }
 
-        private string WhichTab(string tag) 
+        private string WhichTabIsTaskSelected(string tag) 
         {
             string taskName = tasksTab.SelectedTab.Tag.ToString() == "current" ? currentTaskListBox.SelectedItem.ToString() : completedTaskListBox.SelectedItem.ToString();
             return taskName;
-        }
+        }        
     }
 }
