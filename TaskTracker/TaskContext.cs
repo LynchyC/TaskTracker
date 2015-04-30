@@ -138,6 +138,7 @@ namespace TaskTracker
             // For now just adding the task name and datestamp into the tasks            
             var doc = new Task
             {
+                _id = ObjectId.GenerateNewId(),
                 TaskName = taskName,
                 DateStamp = DateTime.Now,
                 Status = Task._Status.Current.ToString()
@@ -200,12 +201,26 @@ namespace TaskTracker
 
         public async Task<bool> TaskStatus(string catName, string taskName, string tag)
         {
-            string query = tag == "Current" ? Task._Status.Completed.ToString():Task._Status.Current.ToString();        
+            string query = tag == "Current" ? Task._Status.Completed.ToString():Task._Status.Current.ToString();
+            string id = await GetTaskID(catName, taskName);
             var builder = Builders<Category>.Filter;
-            var filter = builder.And(builder.Eq(x => x.CategoryName, catName), builder.Eq("tasks.task_name", taskName),builder.Eq("tasks.status", tag));
+            var filter = builder.Eq("tasks._id", ObjectId.Parse(id));
             var update = Builders<Category>.Update.Set("tasks.$.status", query);
             await Categories.FindOneAndUpdateAsync(filter, update);
             return true;
+        }
+
+        public async Task<string> GetTaskID(string catName, string taskName) 
+        {
+            string id = "";
+            var builder = Builders<Category>.Filter;
+            var filter = builder.And(builder.Eq(x => x.CategoryName, catName), builder.Eq("tasks.task_name", taskName));
+            var find = await Categories.Find<Category>(filter).Project(x => x.Task.Select(y => y._id)).FirstAsync();
+            foreach (var item in find)
+            {
+                id = item.ToString();
+            }                
+            return id;
         }
     }
 }
