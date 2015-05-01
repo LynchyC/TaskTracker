@@ -130,7 +130,7 @@ namespace TaskTracker
                     {
                         case MouseButtons.Right:
                             {
-                                contextMenuStrip.Show(this, new Point(e.X, e.Y));
+                                contextMenuStrip.Show(Cursor.Position);
                             }
                             break;
                     }
