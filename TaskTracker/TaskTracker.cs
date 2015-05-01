@@ -23,6 +23,7 @@ namespace TaskTracker
         private async void FormLoad(object sender, EventArgs e) 
         {
             await LoadCategoryList();
+            windowSize(sender, e);
         }
 
         private async void TaskLoad(object sender, EventArgs e) 
@@ -33,8 +34,10 @@ namespace TaskTracker
         private async Task<bool> LoadCategoryList()
         {
             await task.CreateIndex();
+
             // Grabs all the category names from the mongo collection
             List<string> categories = await task.FindCategoryNames();
+
             // Create the default value to guide the user. 
             categories.Insert(0, "Select a category...");
             categoriesBox.DataSource = categories;
@@ -128,10 +131,9 @@ namespace TaskTracker
                 {
                     switch (e.Button)
                     {
-                        case MouseButtons.Right:
-                            {
+                        case MouseButtons.Right:                            
                                 contextMenuStrip.Show(Cursor.Position);
-                            }
+                            
                             break;
                     }
                 }
@@ -162,6 +164,12 @@ namespace TaskTracker
         {
             string taskName = tasksTab.SelectedTab.Tag.ToString() == "current" ? currentTaskListBox.SelectedItem.ToString() : completedTaskListBox.SelectedItem.ToString();
             return taskName;
-        }        
+        }
+
+        private void windowSize(object sender, EventArgs e) 
+        {
+            if (this.WindowState == FormWindowState.Normal)            
+                this.FormBorderStyle = FormBorderStyle.FixedDialog;            
+        }
     }
 }

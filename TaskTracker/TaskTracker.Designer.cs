@@ -144,6 +144,8 @@
             // 
             // tasksTab
             // 
+            this.tasksTab.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.tasksTab.Controls.Add(this.currenttabPage);
             this.tasksTab.Controls.Add(this.completedtabPage);
             this.tasksTab.Location = new System.Drawing.Point(12, 40);
@@ -198,9 +200,11 @@
             this.Controls.Add(this.taskTextBox);
             this.Controls.Add(this.addCategoryBtn);
             this.Controls.Add(this.categoriesBox);
+            this.MinimumSize = new System.Drawing.Size(249, 366);
             this.Name = "taskTracker";
             this.Text = "Task Tracker";
             this.Load += new System.EventHandler(this.FormLoad);
+            this.SizeChanged += new System.EventHandler(this.windowSize);
             this.contextMenuStrip.ResumeLayout(false);
             this.tasksTab.ResumeLayout(false);
             this.currenttabPage.ResumeLayout(false);

@@ -59,6 +59,7 @@ namespace TaskTracker
 
         public async Task<bool> CreateIndex()
         {
+            //TODO: Make this method be called only when the collection is intially created.
             await Categories.Indexes.CreateOneAsync(Builders<Category>.IndexKeys.Ascending(x => x.CategoryName));
             return true;
         }
@@ -129,13 +130,14 @@ namespace TaskTracker
             // Grabs only the category names in the collection to become the data source for the drop down list.
             var filter = new BsonDocument();
             var getCat = await Categories.Find<Category>(filter)
-                        .Project(x => x.CategoryName).ToListAsync();
+                        .Project(x => x.CategoryName)
+                        .ToListAsync();
             return getCat.ToList();
         }
 
         public async Task<bool> InsertNewTask(string taskName, string catName, string index)
         {
-            // For now just adding the task name and datestamp into the tasks            
+            // Creates new task to be inserted later.            
             var doc = new Task
             {
                 _id = ObjectId.GenerateNewId(),
@@ -165,7 +167,7 @@ namespace TaskTracker
 
         public async Task<List<string>> FindTaskNamesByTab(string catName, string index)
         {
-            // Grabs all the current task names in the passed category
+            // Grabs all the tasks corresponding to thestatus in the collection.
             string tag = index == "current" ? Task._Status.Current.ToString() : Task._Status.Completed.ToString();
             List<string> tasks = new List<string>();
             var builder = Builders<Category>.Filter;
@@ -212,6 +214,7 @@ namespace TaskTracker
             var filter = builder.And(builder.Eq(x => x.CategoryName, catName), builder.Eq("tasks.task_name", taskName));
             var find = await Categories.Find<Category>(filter).ToListAsync<Category>();
             List<Task> tasks = new List<Task>();
+            // Cycle through the tasks in the corresponding category to find the matching taskName and then grab the _id. 
             foreach (var item in find[0].Task)
             {                
                 if (item.TaskName == taskName)                
