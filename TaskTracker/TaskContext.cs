@@ -224,5 +224,35 @@ namespace TaskTracker
             }                
             return id;
         }
+
+        public async Task<Task> GetTasksDetails(string catName, string taskName) 
+        {
+            var doc = new Task() { };
+            var builder = Builders<Category>.Filter;
+            var filter = builder.Eq("tasks._id", ObjectId.Parse(await GetTaskID(catName, taskName)));
+            var find = await Categories.Find<Category>(filter)                                             
+                    .ToListAsync<Category>();
+            foreach (var item in find[0].Task)
+            {
+                if (item.TaskName == taskName)
+                {
+                    doc._id = item._id;
+                    doc.DateStamp = item.DateStamp;
+                    doc.TaskBody = item.TaskBody;
+                    doc.TaskName = item.TaskName;
+                    doc.Status = item.Status;
+                }                
+            }
+            return doc;            
+        }
+
+        public async Task<bool> SaveChanges(string taskBody, string taskName, string catName) 
+        {
+            var builder = Builders<Category>.Filter;
+            var filter = builder.Eq("tasks._id", ObjectId.Parse(await GetTaskID(catName, taskName)));
+            var update = Builders<Category>.Update.Set("tasks.$.body", taskBody);
+            await Categories.FindOneAndUpdateAsync(filter, update);
+            return true;
+        }
     }
 }

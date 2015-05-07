@@ -36,13 +36,19 @@
             this.deleteTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.c = new System.Windows.Forms.ToolStripMenuItem();
             this.addCategoryBtn = new System.Windows.Forms.Button();
-            this.taskTextBox = new System.Windows.Forms.TextBox();
+            this.addTaskTextBox = new System.Windows.Forms.TextBox();
             this.delCategoryBtn = new System.Windows.Forms.Button();
             this.addTaskBtn = new System.Windows.Forms.Button();
             this.tasksTab = new System.Windows.Forms.TabControl();
             this.currenttabPage = new System.Windows.Forms.TabPage();
             this.currentTaskListBox = new System.Windows.Forms.ListBox();
             this.completedtabPage = new System.Windows.Forms.TabPage();
+            this.taskNamelbl = new System.Windows.Forms.Label();
+            this.taskNametextBox = new System.Windows.Forms.TextBox();
+            this.taskBodyTextBox = new System.Windows.Forms.RichTextBox();
+            this.saveBodyBtn = new System.Windows.Forms.Button();
+            this.saveLbl = new System.Windows.Forms.Label();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStrip.SuspendLayout();
             this.tasksTab.SuspendLayout();
             this.currenttabPage.SuspendLayout();
@@ -67,8 +73,9 @@
             this.completedTaskListBox.FormattingEnabled = true;
             this.completedTaskListBox.Location = new System.Drawing.Point(3, 3);
             this.completedTaskListBox.Name = "completedTaskListBox";
-            this.completedTaskListBox.Size = new System.Drawing.Size(189, 207);
+            this.completedTaskListBox.Size = new System.Drawing.Size(189, 465);
             this.completedTaskListBox.TabIndex = 1;
+            this.completedTaskListBox.DoubleClick += new System.EventHandler(this.loadTaskDetails);
             this.completedTaskListBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.taskListMouseDown);
             // 
             // contextMenuStrip
@@ -113,13 +120,13 @@
             this.addCategoryBtn.UseVisualStyleBackColor = true;
             this.addCategoryBtn.Click += new System.EventHandler(this.AddCategoryBtn);
             // 
-            // taskTextBox
+            // addTaskTextBox
             // 
-            this.taskTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.taskTextBox.Location = new System.Drawing.Point(13, 296);
-            this.taskTextBox.Name = "taskTextBox";
-            this.taskTextBox.Size = new System.Drawing.Size(121, 20);
-            this.taskTextBox.TabIndex = 4;
+            this.addTaskTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.addTaskTextBox.Location = new System.Drawing.Point(13, 554);
+            this.addTaskTextBox.Name = "addTaskTextBox";
+            this.addTaskTextBox.Size = new System.Drawing.Size(121, 20);
+            this.addTaskTextBox.TabIndex = 4;
             // 
             // delCategoryBtn
             // 
@@ -134,7 +141,7 @@
             // addTaskBtn
             // 
             this.addTaskBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addTaskBtn.Location = new System.Drawing.Point(140, 294);
+            this.addTaskBtn.Location = new System.Drawing.Point(140, 552);
             this.addTaskBtn.Name = "addTaskBtn";
             this.addTaskBtn.Size = new System.Drawing.Size(75, 23);
             this.addTaskBtn.TabIndex = 6;
@@ -151,7 +158,7 @@
             this.tasksTab.Location = new System.Drawing.Point(12, 40);
             this.tasksTab.Name = "tasksTab";
             this.tasksTab.SelectedIndex = 0;
-            this.tasksTab.Size = new System.Drawing.Size(203, 239);
+            this.tasksTab.Size = new System.Drawing.Size(203, 497);
             this.tasksTab.TabIndex = 7;
             this.tasksTab.Tag = "";
             // 
@@ -161,7 +168,7 @@
             this.currenttabPage.Location = new System.Drawing.Point(4, 22);
             this.currenttabPage.Name = "currenttabPage";
             this.currenttabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.currenttabPage.Size = new System.Drawing.Size(195, 213);
+            this.currenttabPage.Size = new System.Drawing.Size(195, 471);
             this.currenttabPage.TabIndex = 0;
             this.currenttabPage.Tag = "current";
             this.currenttabPage.Text = "Current Tasks";
@@ -173,8 +180,9 @@
             this.currentTaskListBox.FormattingEnabled = true;
             this.currentTaskListBox.Location = new System.Drawing.Point(3, 3);
             this.currentTaskListBox.Name = "currentTaskListBox";
-            this.currentTaskListBox.Size = new System.Drawing.Size(189, 207);
+            this.currentTaskListBox.Size = new System.Drawing.Size(189, 465);
             this.currentTaskListBox.TabIndex = 0;
+            this.currentTaskListBox.DoubleClick += new System.EventHandler(this.loadTaskDetails);
             this.currentTaskListBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.taskListMouseDown);
             // 
             // completedtabPage
@@ -183,21 +191,74 @@
             this.completedtabPage.Location = new System.Drawing.Point(4, 22);
             this.completedtabPage.Name = "completedtabPage";
             this.completedtabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.completedtabPage.Size = new System.Drawing.Size(195, 213);
+            this.completedtabPage.Size = new System.Drawing.Size(195, 471);
             this.completedtabPage.TabIndex = 1;
             this.completedtabPage.Tag = "completed";
             this.completedtabPage.Text = "Completed Tasks";
             this.completedtabPage.UseVisualStyleBackColor = true;
             // 
+            // taskNamelbl
+            // 
+            this.taskNamelbl.AutoSize = true;
+            this.taskNamelbl.Location = new System.Drawing.Point(254, 18);
+            this.taskNamelbl.Name = "taskNamelbl";
+            this.taskNamelbl.Size = new System.Drawing.Size(65, 13);
+            this.taskNamelbl.TabIndex = 8;
+            this.taskNamelbl.Text = "Task Name:";
+            // 
+            // taskNametextBox
+            // 
+            this.taskNametextBox.Location = new System.Drawing.Point(325, 15);
+            this.taskNametextBox.Name = "taskNametextBox";
+            this.taskNametextBox.ReadOnly = true;
+            this.taskNametextBox.Size = new System.Drawing.Size(162, 20);
+            this.taskNametextBox.TabIndex = 9;
+            // 
+            // taskBodyTextBox
+            // 
+            this.taskBodyTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.taskBodyTextBox.Location = new System.Drawing.Point(257, 62);
+            this.taskBodyTextBox.Name = "taskBodyTextBox";
+            this.taskBodyTextBox.Size = new System.Drawing.Size(564, 468);
+            this.taskBodyTextBox.TabIndex = 10;
+            this.taskBodyTextBox.Text = "";
+            // 
+            // saveBodyBtn
+            // 
+            this.saveBodyBtn.Location = new System.Drawing.Point(493, 13);
+            this.saveBodyBtn.Name = "saveBodyBtn";
+            this.saveBodyBtn.Size = new System.Drawing.Size(75, 23);
+            this.saveBodyBtn.TabIndex = 11;
+            this.saveBodyBtn.Text = "Save";
+            this.saveBodyBtn.UseVisualStyleBackColor = true;
+            this.saveBodyBtn.Click += new System.EventHandler(this.saveChanges);
+            // 
+            // saveLbl
+            // 
+            this.saveLbl.AutoSize = true;
+            this.saveLbl.Location = new System.Drawing.Point(574, 18);
+            this.saveLbl.Name = "saveLbl";
+            this.saveLbl.Size = new System.Drawing.Size(41, 13);
+            this.saveLbl.TabIndex = 12;
+            this.saveLbl.Text = "Saved!";
+            this.saveLbl.Visible = false;
+            // 
             // taskTracker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(233, 328);
+            this.ClientSize = new System.Drawing.Size(835, 586);
+            this.Controls.Add(this.saveLbl);
+            this.Controls.Add(this.saveBodyBtn);
+            this.Controls.Add(this.taskBodyTextBox);
+            this.Controls.Add(this.taskNametextBox);
+            this.Controls.Add(this.taskNamelbl);
             this.Controls.Add(this.tasksTab);
             this.Controls.Add(this.addTaskBtn);
             this.Controls.Add(this.delCategoryBtn);
-            this.Controls.Add(this.taskTextBox);
+            this.Controls.Add(this.addTaskTextBox);
             this.Controls.Add(this.addCategoryBtn);
             this.Controls.Add(this.categoriesBox);
             this.MinimumSize = new System.Drawing.Size(249, 366);
@@ -219,7 +280,7 @@
         private System.Windows.Forms.ComboBox categoriesBox;
         private System.Windows.Forms.ListBox completedTaskListBox;
         private System.Windows.Forms.Button addCategoryBtn;
-        private System.Windows.Forms.TextBox taskTextBox;
+        private System.Windows.Forms.TextBox addTaskTextBox;
         private System.Windows.Forms.Button delCategoryBtn;
         private System.Windows.Forms.Button addTaskBtn;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
@@ -230,6 +291,12 @@
         private System.Windows.Forms.TabPage currenttabPage;
         private System.Windows.Forms.TabPage completedtabPage;
         private System.Windows.Forms.ListBox currentTaskListBox;
+        private System.Windows.Forms.Label taskNamelbl;
+        private System.Windows.Forms.TextBox taskNametextBox;
+        private System.Windows.Forms.RichTextBox taskBodyTextBox;
+        private System.Windows.Forms.Button saveBodyBtn;
+        private System.Windows.Forms.Label saveLbl;
+        private System.Windows.Forms.Timer timer;
     }
 }
 

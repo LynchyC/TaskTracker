@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 
 namespace TaskTracker
@@ -97,16 +99,16 @@ namespace TaskTracker
 
         private async void AddTaskBtn(object sender, EventArgs e)
         {
-            if (taskTextBox.Text == string.Empty)
+            if (addTaskTextBox.Text == string.Empty)
                 MessageBox.Show("Please enter a valid task name.");
             else if (categoriesBox.SelectedIndex == 0)
                 MessageBox.Show("Please have a valid category selected.");
             else
             {
-                await task.InsertNewTask(taskTextBox.Text, categoriesBox.SelectedItem.ToString(), "current");
+                await task.InsertNewTask(addTaskTextBox.Text, categoriesBox.SelectedItem.ToString(), "current");
                 await LoadTaskList();
             }
-            taskTextBox.Clear();
+            addTaskTextBox.Clear();
         }
 
         private void taskListMouseDown(object sender, MouseEventArgs e)
@@ -168,8 +170,48 @@ namespace TaskTracker
 
         private void windowSize(object sender, EventArgs e) 
         {
-            if (this.WindowState == FormWindowState.Normal)            
-                this.FormBorderStyle = FormBorderStyle.FixedDialog;            
+            if (this.WindowState == FormWindowState.Normal)
+            {
+                this.Width = 246;
+                this.Height = 366;
+                this.FormBorderStyle = FormBorderStyle.FixedSingle;
+                taskNametextBox.Visible = false;
+                taskNamelbl.Visible = false;
+                taskBodyTextBox.Visible = false;
+                saveBodyBtn.Visible = false;
+            }
+            else if (this.WindowState == FormWindowState.Maximized)
+            {
+                taskNametextBox.Visible = true;
+                taskNamelbl.Visible = true;
+                taskBodyTextBox.Visible = true;
+                saveBodyBtn.Visible = true;
+            }
+                
+        }
+
+        private async void loadTaskDetails(object sender, EventArgs e) 
+        {
+            Task doc = await task.GetTasksDetails(categoriesBox.SelectedItem.ToString(), WhichTabIsTaskSelected(tasksTab.SelectedTab.ToString()));
+            taskNametextBox.Text = doc.TaskName;
+            taskBodyTextBox.Text = doc.TaskBody;
+            this.WindowState = FormWindowState.Maximized;
+        }
+
+        private async void saveChanges(object sender, EventArgs e) 
+        {
+            await task.SaveChanges(taskBodyTextBox.Text, taskNametextBox.Text, categoriesBox.SelectedItem.ToString());
+            saveLbl.Visible = true;
+            timer.Interval = 2000;
+            timer.Tick += new System.EventHandler(this.timerTick);
+            saveLbl.Visible = true;
+            timer.Start();
+        }
+
+        private void timerTick(object sender, EventArgs e) 
+        {
+            timer.Stop();
+            saveLbl.Visible = false;
         }
     }
 }
