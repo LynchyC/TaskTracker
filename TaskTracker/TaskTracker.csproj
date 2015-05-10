@@ -114,6 +114,14 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\add-user.png" />
+    <Content Include="Content\add.png" />
+    <Content Include="Content\delete-user.png" />
+    <Content Include="Content\delete.png" />
+    <Content Include="Content\Link-to-icon-set.txt" />
+    <Content Include="Content\save.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

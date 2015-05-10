@@ -29,15 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(taskTracker));
             this.categoriesBox = new System.Windows.Forms.ComboBox();
             this.completedTaskListBox = new System.Windows.Forms.ListBox();
             this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openTaskDetailsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteTaskToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.c = new System.Windows.Forms.ToolStripMenuItem();
-            this.addCategoryBtn = new System.Windows.Forms.Button();
             this.addTaskTextBox = new System.Windows.Forms.TextBox();
-            this.delCategoryBtn = new System.Windows.Forms.Button();
             this.addTaskBtn = new System.Windows.Forms.Button();
             this.tasksTab = new System.Windows.Forms.TabControl();
             this.currenttabPage = new System.Windows.Forms.TabPage();
@@ -46,13 +45,19 @@
             this.taskNamelbl = new System.Windows.Forms.Label();
             this.taskNametextBox = new System.Windows.Forms.TextBox();
             this.taskBodyTextBox = new System.Windows.Forms.RichTextBox();
-            this.saveBodyBtn = new System.Windows.Forms.Button();
             this.saveLbl = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.saveImgBtn = new System.Windows.Forms.PictureBox();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.addCatImgBtn = new System.Windows.Forms.PictureBox();
+            this.delCatImgBtn = new System.Windows.Forms.PictureBox();
             this.contextMenuStrip.SuspendLayout();
             this.tasksTab.SuspendLayout();
             this.currenttabPage.SuspendLayout();
             this.completedtabPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.saveImgBtn)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addCatImgBtn)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.delCatImgBtn)).BeginInit();
             this.SuspendLayout();
             // 
             // categoriesBox
@@ -111,16 +116,6 @@
             this.c.Text = "Set Task as Completed";
             this.c.Click += new System.EventHandler(this.taskStatus);
             // 
-            // addCategoryBtn
-            // 
-            this.addCategoryBtn.Location = new System.Drawing.Point(142, 11);
-            this.addCategoryBtn.Name = "addCategoryBtn";
-            this.addCategoryBtn.Size = new System.Drawing.Size(28, 23);
-            this.addCategoryBtn.TabIndex = 2;
-            this.addCategoryBtn.Text = "+";
-            this.addCategoryBtn.UseVisualStyleBackColor = true;
-            this.addCategoryBtn.Click += new System.EventHandler(this.AddCategoryBtn);
-            // 
             // addTaskTextBox
             // 
             this.addTaskTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
@@ -128,16 +123,6 @@
             this.addTaskTextBox.Name = "addTaskTextBox";
             this.addTaskTextBox.Size = new System.Drawing.Size(121, 20);
             this.addTaskTextBox.TabIndex = 4;
-            // 
-            // delCategoryBtn
-            // 
-            this.delCategoryBtn.Location = new System.Drawing.Point(176, 11);
-            this.delCategoryBtn.Name = "delCategoryBtn";
-            this.delCategoryBtn.Size = new System.Drawing.Size(28, 23);
-            this.delCategoryBtn.TabIndex = 5;
-            this.delCategoryBtn.Text = "-";
-            this.delCategoryBtn.UseVisualStyleBackColor = true;
-            this.delCategoryBtn.Click += new System.EventHandler(this.DeleteCategoryBtn);
             // 
             // addTaskBtn
             // 
@@ -229,42 +214,73 @@
             this.taskBodyTextBox.Text = "";
             this.taskBodyTextBox.Visible = false;
             // 
-            // saveBodyBtn
-            // 
-            this.saveBodyBtn.Location = new System.Drawing.Point(493, 13);
-            this.saveBodyBtn.Name = "saveBodyBtn";
-            this.saveBodyBtn.Size = new System.Drawing.Size(75, 23);
-            this.saveBodyBtn.TabIndex = 11;
-            this.saveBodyBtn.Text = "Save";
-            this.saveBodyBtn.UseVisualStyleBackColor = true;
-            this.saveBodyBtn.Visible = false;
-            this.saveBodyBtn.Click += new System.EventHandler(this.saveChanges);
-            // 
             // saveLbl
             // 
             this.saveLbl.AutoSize = true;
-            this.saveLbl.Location = new System.Drawing.Point(574, 18);
+            this.saveLbl.Location = new System.Drawing.Point(542, 22);
             this.saveLbl.Name = "saveLbl";
             this.saveLbl.Size = new System.Drawing.Size(41, 13);
             this.saveLbl.TabIndex = 12;
             this.saveLbl.Text = "Saved!";
             this.saveLbl.Visible = false;
             // 
+            // saveImgBtn
+            // 
+            this.saveImgBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.saveImgBtn.Image = ((System.Drawing.Image)(resources.GetObject("saveImgBtn.Image")));
+            this.saveImgBtn.Location = new System.Drawing.Point(493, 11);
+            this.saveImgBtn.Name = "saveImgBtn";
+            this.saveImgBtn.Size = new System.Drawing.Size(32, 32);
+            this.saveImgBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.saveImgBtn.TabIndex = 13;
+            this.saveImgBtn.TabStop = false;
+            this.toolTip.SetToolTip(this.saveImgBtn, "Save");
+            this.saveImgBtn.Visible = false;
+            this.saveImgBtn.Click += new System.EventHandler(this.saveChanges);
+            this.saveImgBtn.MouseEnter += new System.EventHandler(this.BevelImage);
+            this.saveImgBtn.MouseLeave += new System.EventHandler(this.UnBevelImage);
+            // 
+            // addCatImgBtn
+            // 
+            this.addCatImgBtn.Image = ((System.Drawing.Image)(resources.GetObject("addCatImgBtn.Image")));
+            this.addCatImgBtn.Location = new System.Drawing.Point(140, 6);
+            this.addCatImgBtn.Name = "addCatImgBtn";
+            this.addCatImgBtn.Size = new System.Drawing.Size(32, 32);
+            this.addCatImgBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.addCatImgBtn.TabIndex = 14;
+            this.addCatImgBtn.TabStop = false;
+            this.addCatImgBtn.Click += new System.EventHandler(this.AddCategoryBtn);
+            this.addCatImgBtn.MouseEnter += new System.EventHandler(this.BevelImage);
+            this.addCatImgBtn.MouseLeave += new System.EventHandler(this.UnBevelImage);
+            // 
+            // delCatImgBtn
+            // 
+            this.delCatImgBtn.Image = ((System.Drawing.Image)(resources.GetObject("delCatImgBtn.Image")));
+            this.delCatImgBtn.Location = new System.Drawing.Point(183, 6);
+            this.delCatImgBtn.Name = "delCatImgBtn";
+            this.delCatImgBtn.Size = new System.Drawing.Size(32, 32);
+            this.delCatImgBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.delCatImgBtn.TabIndex = 15;
+            this.delCatImgBtn.TabStop = false;
+            this.delCatImgBtn.Click += new System.EventHandler(this.DeleteCategoryBtn);
+            this.delCatImgBtn.MouseEnter += new System.EventHandler(this.BevelImage);
+            this.delCatImgBtn.MouseLeave += new System.EventHandler(this.UnBevelImage);
+            // 
             // taskTracker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(835, 586);
+            this.Controls.Add(this.delCatImgBtn);
+            this.Controls.Add(this.addCatImgBtn);
+            this.Controls.Add(this.saveImgBtn);
             this.Controls.Add(this.saveLbl);
-            this.Controls.Add(this.saveBodyBtn);
             this.Controls.Add(this.taskBodyTextBox);
             this.Controls.Add(this.taskNametextBox);
             this.Controls.Add(this.taskNamelbl);
             this.Controls.Add(this.tasksTab);
             this.Controls.Add(this.addTaskBtn);
-            this.Controls.Add(this.delCategoryBtn);
             this.Controls.Add(this.addTaskTextBox);
-            this.Controls.Add(this.addCategoryBtn);
             this.Controls.Add(this.categoriesBox);
             this.MinimumSize = new System.Drawing.Size(249, 366);
             this.Name = "taskTracker";
@@ -275,6 +291,9 @@
             this.tasksTab.ResumeLayout(false);
             this.currenttabPage.ResumeLayout(false);
             this.completedtabPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.saveImgBtn)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addCatImgBtn)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.delCatImgBtn)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -284,9 +303,7 @@
 
         private System.Windows.Forms.ComboBox categoriesBox;
         private System.Windows.Forms.ListBox completedTaskListBox;
-        private System.Windows.Forms.Button addCategoryBtn;
         private System.Windows.Forms.TextBox addTaskTextBox;
-        private System.Windows.Forms.Button delCategoryBtn;
         private System.Windows.Forms.Button addTaskBtn;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem openTaskDetailsToolStripMenuItem;
@@ -299,9 +316,12 @@
         private System.Windows.Forms.Label taskNamelbl;
         private System.Windows.Forms.TextBox taskNametextBox;
         private System.Windows.Forms.RichTextBox taskBodyTextBox;
-        private System.Windows.Forms.Button saveBodyBtn;
         private System.Windows.Forms.Label saveLbl;
         private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.PictureBox saveImgBtn;
+        private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.PictureBox addCatImgBtn;
+        private System.Windows.Forms.PictureBox delCatImgBtn;
     }
 }
 

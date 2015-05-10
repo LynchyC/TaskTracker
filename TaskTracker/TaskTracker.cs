@@ -30,10 +30,6 @@ namespace TaskTracker
             this.Width = 246;
             this.Height = 366;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
-            taskNametextBox.Visible = false;
-            taskNamelbl.Visible = false;
-            taskBodyTextBox.Visible = false;
-            saveBodyBtn.Visible = false;
         }
 
         private async void TaskLoad(object sender, EventArgs e)
@@ -190,7 +186,7 @@ namespace TaskTracker
                 taskNametextBox.Visible = true;
                 taskNamelbl.Visible = true;
                 taskBodyTextBox.Visible = true;
-                saveBodyBtn.Visible = true;
+                saveImgBtn.Visible = true;
             }
         }
 
@@ -222,5 +218,17 @@ namespace TaskTracker
             timer.Stop();
             saveLbl.Visible = false;
         }
+
+        private void BevelImage(object sender, EventArgs e)
+        {
+            ((PictureBox)sender).BorderStyle = BorderStyle.Fixed3D;
+        }
+
+        private void UnBevelImage(object sender, EventArgs e)
+        {
+            ((PictureBox)sender).BorderStyle = BorderStyle.None;
+        }
+
+
     }
 }
