@@ -93,6 +93,7 @@
             this.openTaskDetailsToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.openTaskDetailsToolStripMenuItem.Tag = "details";
             this.openTaskDetailsToolStripMenuItem.Text = "Open Task Details";
+            this.openTaskDetailsToolStripMenuItem.Click += new System.EventHandler(this.loadTaskDetails);
             // 
             // deleteTaskToolStripMenuItem
             // 
@@ -205,6 +206,7 @@
             this.taskNamelbl.Size = new System.Drawing.Size(65, 13);
             this.taskNamelbl.TabIndex = 8;
             this.taskNamelbl.Text = "Task Name:";
+            this.taskNamelbl.Visible = false;
             // 
             // taskNametextBox
             // 
@@ -213,6 +215,7 @@
             this.taskNametextBox.ReadOnly = true;
             this.taskNametextBox.Size = new System.Drawing.Size(162, 20);
             this.taskNametextBox.TabIndex = 9;
+            this.taskNametextBox.Visible = false;
             // 
             // taskBodyTextBox
             // 
@@ -224,6 +227,7 @@
             this.taskBodyTextBox.Size = new System.Drawing.Size(564, 468);
             this.taskBodyTextBox.TabIndex = 10;
             this.taskBodyTextBox.Text = "";
+            this.taskBodyTextBox.Visible = false;
             // 
             // saveBodyBtn
             // 
@@ -233,6 +237,7 @@
             this.saveBodyBtn.TabIndex = 11;
             this.saveBodyBtn.Text = "Save";
             this.saveBodyBtn.UseVisualStyleBackColor = true;
+            this.saveBodyBtn.Visible = false;
             this.saveBodyBtn.Click += new System.EventHandler(this.saveChanges);
             // 
             // saveLbl

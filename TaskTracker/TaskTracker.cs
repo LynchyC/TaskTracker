@@ -22,13 +22,21 @@ namespace TaskTracker
             InitializeComponent();
         }
 
-        private async void FormLoad(object sender, EventArgs e) 
+        private bool startUp = true;
+
+        private async void FormLoad(object sender, EventArgs e)
         {
             await LoadCategoryList();
-            windowSize(sender, e);
+            this.Width = 246;
+            this.Height = 366;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            taskNametextBox.Visible = false;
+            taskNamelbl.Visible = false;
+            taskBodyTextBox.Visible = false;
+            saveBodyBtn.Visible = false;
         }
 
-        private async void TaskLoad(object sender, EventArgs e) 
+        private async void TaskLoad(object sender, EventArgs e)
         {
             await LoadTaskList();
         }
@@ -52,10 +60,10 @@ namespace TaskTracker
             if (categoriesBox.SelectedIndex != 0)
             {
                 // Grabs all the task names from the array inside the mongo collection
-                List<string> currenttasks = await task.FindTaskNamesByTab(categoriesBox.SelectedItem.ToString(), "current");                                              
+                List<string> currenttasks = await task.FindTaskNamesByTab(categoriesBox.SelectedItem.ToString(), "current");
                 currentTaskListBox.DataSource = currenttasks;
 
-                List<string> completedTasks = await task.FindTaskNamesByTab(categoriesBox.SelectedItem.ToString(),"completed");
+                List<string> completedTasks = await task.FindTaskNamesByTab(categoriesBox.SelectedItem.ToString(), "completed");
                 completedTaskListBox.DataSource = completedTasks;
             }
             else
@@ -72,7 +80,7 @@ namespace TaskTracker
             AddCategory addCat = new AddCategory();
             // Runs AddCategory form - gets string value for created category. 
             DialogResult res = (DialogResult)addCat.ShowDialog();
-            if (res == DialogResult.OK) 
+            if (res == DialogResult.OK)
             {
                 await task.InsertCategory(addCat.CategoryName);
                 await LoadCategoryList();
@@ -116,7 +124,7 @@ namespace TaskTracker
             int index = 0;
             if (categoriesBox.SelectedIndex != 0)
             {
-                ContextMenuStrip cm = new ContextMenuStrip();                
+                ContextMenuStrip cm = new ContextMenuStrip();
                 tasksTab.ContextMenuStrip = cm;
                 if (tasksTab.SelectedTab.Tag.ToString() != "current")
                 {
@@ -128,14 +136,14 @@ namespace TaskTracker
                     c.Text = "Set Task as Completed";
                     index = this.currentTaskListBox.IndexFromPoint(e.Location);
                 }
-                
+
                 if (index != ListBox.NoMatches)
                 {
                     switch (e.Button)
                     {
-                        case MouseButtons.Right:                            
-                                contextMenuStrip.Show(Cursor.Position);
-                            
+                        case MouseButtons.Right:
+                            contextMenuStrip.Show(Cursor.Position);
+
                             break;
                     }
                 }
@@ -150,55 +158,56 @@ namespace TaskTracker
 
             if (result == DialogResult.OK)
             {
-                await task.DeleteTask(categoriesBox.SelectedItem.ToString(),taskName);
+                await task.DeleteTask(categoriesBox.SelectedItem.ToString(), taskName);
                 await LoadTaskList();
             }
         }
 
-        private async void taskStatus(object sender, EventArgs e) 
+        private async void taskStatus(object sender, EventArgs e)
         {
             string tab = tasksTab.SelectedTab.Tag.ToString() == "current" ? Task._Status.Current.ToString() : Task._Status.Completed.ToString();
             await task.TaskStatus(categoriesBox.SelectedItem.ToString(), WhichTabIsTaskSelected(tasksTab.SelectedTab.Tag.ToString()), tab);
             await LoadTaskList();
         }
 
-        private string WhichTabIsTaskSelected(string tag) 
+        private string WhichTabIsTaskSelected(string tag)
         {
             string taskName = tasksTab.SelectedTab.Tag.ToString() == "current" ? currentTaskListBox.SelectedItem.ToString() : completedTaskListBox.SelectedItem.ToString();
             return taskName;
         }
 
-        private void windowSize(object sender, EventArgs e) 
+        private void windowSize(object sender, EventArgs e)
         {
+            if (startUp == true)
+            {
+                return;
+            }
+
             if (this.WindowState == FormWindowState.Normal)
             {
-                this.Width = 246;
-                this.Height = 366;
-                this.FormBorderStyle = FormBorderStyle.FixedSingle;
-                taskNametextBox.Visible = false;
-                taskNamelbl.Visible = false;
-                taskBodyTextBox.Visible = false;
-                saveBodyBtn.Visible = false;
-            }
-            else if (this.WindowState == FormWindowState.Maximized)
-            {
+                this.Width = 851;
+                this.Height = 624;
                 taskNametextBox.Visible = true;
                 taskNamelbl.Visible = true;
                 taskBodyTextBox.Visible = true;
                 saveBodyBtn.Visible = true;
             }
-                
         }
 
-        private async void loadTaskDetails(object sender, EventArgs e) 
+        private async void loadTaskDetails(object sender, EventArgs e)
         {
             Task doc = await task.GetTasksDetails(categoriesBox.SelectedItem.ToString(), WhichTabIsTaskSelected(tasksTab.SelectedTab.ToString()));
             taskNametextBox.Text = doc.TaskName;
             taskBodyTextBox.Text = doc.TaskBody;
-            this.WindowState = FormWindowState.Maximized;
+            if (this.Width == 249)
+            {
+                startUp = false;
+                windowSize(sender, e);
+            }
+                
         }
 
-        private async void saveChanges(object sender, EventArgs e) 
+        private async void saveChanges(object sender, EventArgs e)
         {
             await task.SaveChanges(taskBodyTextBox.Text, taskNametextBox.Text, categoriesBox.SelectedItem.ToString());
             saveLbl.Visible = true;
@@ -208,7 +217,7 @@ namespace TaskTracker
             timer.Start();
         }
 
-        private void timerTick(object sender, EventArgs e) 
+        private void timerTick(object sender, EventArgs e)
         {
             timer.Stop();
             saveLbl.Visible = false;
