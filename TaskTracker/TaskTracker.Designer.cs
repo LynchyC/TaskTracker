@@ -217,7 +217,7 @@
             // saveLbl
             // 
             this.saveLbl.AutoSize = true;
-            this.saveLbl.Location = new System.Drawing.Point(542, 22);
+            this.saveLbl.Location = new System.Drawing.Point(540, 18);
             this.saveLbl.Name = "saveLbl";
             this.saveLbl.Size = new System.Drawing.Size(41, 13);
             this.saveLbl.TabIndex = 12;
@@ -228,10 +228,10 @@
             // 
             this.saveImgBtn.Cursor = System.Windows.Forms.Cursors.Hand;
             this.saveImgBtn.Image = ((System.Drawing.Image)(resources.GetObject("saveImgBtn.Image")));
-            this.saveImgBtn.Location = new System.Drawing.Point(493, 11);
+            this.saveImgBtn.Location = new System.Drawing.Point(499, 12);
             this.saveImgBtn.Name = "saveImgBtn";
-            this.saveImgBtn.Size = new System.Drawing.Size(32, 32);
-            this.saveImgBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.saveImgBtn.Size = new System.Drawing.Size(25, 24);
+            this.saveImgBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.saveImgBtn.TabIndex = 13;
             this.saveImgBtn.TabStop = false;
             this.toolTip.SetToolTip(this.saveImgBtn, "Save");
@@ -243,12 +243,13 @@
             // addCatImgBtn
             // 
             this.addCatImgBtn.Image = ((System.Drawing.Image)(resources.GetObject("addCatImgBtn.Image")));
-            this.addCatImgBtn.Location = new System.Drawing.Point(140, 6);
+            this.addCatImgBtn.Location = new System.Drawing.Point(148, 9);
             this.addCatImgBtn.Name = "addCatImgBtn";
-            this.addCatImgBtn.Size = new System.Drawing.Size(32, 32);
-            this.addCatImgBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.addCatImgBtn.Size = new System.Drawing.Size(25, 24);
+            this.addCatImgBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.addCatImgBtn.TabIndex = 14;
             this.addCatImgBtn.TabStop = false;
+            this.toolTip.SetToolTip(this.addCatImgBtn, "Add Category");
             this.addCatImgBtn.Click += new System.EventHandler(this.AddCategoryBtn);
             this.addCatImgBtn.MouseEnter += new System.EventHandler(this.BevelImage);
             this.addCatImgBtn.MouseLeave += new System.EventHandler(this.UnBevelImage);
@@ -256,12 +257,13 @@
             // delCatImgBtn
             // 
             this.delCatImgBtn.Image = ((System.Drawing.Image)(resources.GetObject("delCatImgBtn.Image")));
-            this.delCatImgBtn.Location = new System.Drawing.Point(183, 6);
+            this.delCatImgBtn.Location = new System.Drawing.Point(190, 9);
             this.delCatImgBtn.Name = "delCatImgBtn";
-            this.delCatImgBtn.Size = new System.Drawing.Size(32, 32);
-            this.delCatImgBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.delCatImgBtn.Size = new System.Drawing.Size(25, 24);
+            this.delCatImgBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.delCatImgBtn.TabIndex = 15;
             this.delCatImgBtn.TabStop = false;
+            this.toolTip.SetToolTip(this.delCatImgBtn, "Delete Category");
             this.delCatImgBtn.Click += new System.EventHandler(this.DeleteCategoryBtn);
             this.delCatImgBtn.MouseEnter += new System.EventHandler(this.BevelImage);
             this.delCatImgBtn.MouseLeave += new System.EventHandler(this.UnBevelImage);
