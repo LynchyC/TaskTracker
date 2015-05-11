@@ -47,17 +47,16 @@
             this.taskBodyTextBox = new System.Windows.Forms.RichTextBox();
             this.saveLbl = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
-            this.saveImgBtn = new System.Windows.Forms.PictureBox();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.addCatImgBtn = new System.Windows.Forms.PictureBox();
             this.delCatImgBtn = new System.Windows.Forms.PictureBox();
             this.currentRadioButton = new System.Windows.Forms.RadioButton();
             this.completedRadioButton = new System.Windows.Forms.RadioButton();
+            this.saveBtn = new System.Windows.Forms.Button();
             this.contextMenuStrip.SuspendLayout();
             this.tasksTab.SuspendLayout();
             this.currenttabPage.SuspendLayout();
             this.completedtabPage.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.saveImgBtn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.addCatImgBtn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.delCatImgBtn)).BeginInit();
             this.SuspendLayout();
@@ -82,7 +81,7 @@
             this.completedTaskListBox.Name = "completedTaskListBox";
             this.completedTaskListBox.Size = new System.Drawing.Size(189, 465);
             this.completedTaskListBox.TabIndex = 1;
-            this.completedTaskListBox.DoubleClick += new System.EventHandler(this.loadTaskDetails);
+            this.completedTaskListBox.DoubleClick += new System.EventHandler(this.LoadTaskDetails);
             this.completedTaskListBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.taskListMouseDown);
             // 
             // contextMenuStrip
@@ -100,7 +99,7 @@
             this.openTaskDetailsToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
             this.openTaskDetailsToolStripMenuItem.Tag = "details";
             this.openTaskDetailsToolStripMenuItem.Text = "Open Task Details";
-            this.openTaskDetailsToolStripMenuItem.Click += new System.EventHandler(this.loadTaskDetails);
+            this.openTaskDetailsToolStripMenuItem.Click += new System.EventHandler(this.LoadTaskDetails);
             // 
             // deleteTaskToolStripMenuItem
             // 
@@ -170,7 +169,7 @@
             this.currentTaskListBox.Name = "currentTaskListBox";
             this.currentTaskListBox.Size = new System.Drawing.Size(189, 465);
             this.currentTaskListBox.TabIndex = 0;
-            this.currentTaskListBox.DoubleClick += new System.EventHandler(this.loadTaskDetails);
+            this.currentTaskListBox.DoubleClick += new System.EventHandler(this.LoadTaskDetails);
             this.currentTaskListBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.taskListMouseDown);
             // 
             // completedtabPage
@@ -219,28 +218,12 @@
             // saveLbl
             // 
             this.saveLbl.AutoSize = true;
-            this.saveLbl.Location = new System.Drawing.Point(540, 18);
+            this.saveLbl.Location = new System.Drawing.Point(741, 557);
             this.saveLbl.Name = "saveLbl";
-            this.saveLbl.Size = new System.Drawing.Size(41, 13);
+            this.saveLbl.Size = new System.Drawing.Size(82, 13);
             this.saveLbl.TabIndex = 12;
-            this.saveLbl.Text = "Saved!";
+            this.saveLbl.Text = "Progress Saved";
             this.saveLbl.Visible = false;
-            // 
-            // saveImgBtn
-            // 
-            this.saveImgBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.saveImgBtn.Image = ((System.Drawing.Image)(resources.GetObject("saveImgBtn.Image")));
-            this.saveImgBtn.Location = new System.Drawing.Point(499, 12);
-            this.saveImgBtn.Name = "saveImgBtn";
-            this.saveImgBtn.Size = new System.Drawing.Size(25, 24);
-            this.saveImgBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.saveImgBtn.TabIndex = 13;
-            this.saveImgBtn.TabStop = false;
-            this.toolTip.SetToolTip(this.saveImgBtn, "Save");
-            this.saveImgBtn.Visible = false;
-            this.saveImgBtn.Click += new System.EventHandler(this.saveChanges);
-            this.saveImgBtn.MouseLeave += new System.EventHandler(this.UnBevelImage);
-            this.saveImgBtn.MouseHover += new System.EventHandler(this.BevelImage);
             // 
             // addCatImgBtn
             // 
@@ -273,7 +256,7 @@
             // currentRadioButton
             // 
             this.currentRadioButton.AutoSize = true;
-            this.currentRadioButton.Location = new System.Drawing.Point(600, 18);
+            this.currentRadioButton.Location = new System.Drawing.Point(520, 16);
             this.currentRadioButton.Name = "currentRadioButton";
             this.currentRadioButton.Size = new System.Drawing.Size(59, 17);
             this.currentRadioButton.TabIndex = 16;
@@ -285,7 +268,7 @@
             // completedRadioButton
             // 
             this.completedRadioButton.AutoSize = true;
-            this.completedRadioButton.Location = new System.Drawing.Point(665, 19);
+            this.completedRadioButton.Location = new System.Drawing.Point(585, 16);
             this.completedRadioButton.Name = "completedRadioButton";
             this.completedRadioButton.Size = new System.Drawing.Size(75, 17);
             this.completedRadioButton.TabIndex = 17;
@@ -294,16 +277,30 @@
             this.completedRadioButton.UseVisualStyleBackColor = true;
             this.completedRadioButton.Visible = false;
             // 
+            // saveBtn
+            // 
+            this.saveBtn.Image = ((System.Drawing.Image)(resources.GetObject("saveBtn.Image")));
+            this.saveBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.saveBtn.Location = new System.Drawing.Point(744, 13);
+            this.saveBtn.Name = "saveBtn";
+            this.saveBtn.Size = new System.Drawing.Size(60, 23);
+            this.saveBtn.TabIndex = 18;
+            this.saveBtn.Text = "Save";
+            this.saveBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.saveBtn.UseVisualStyleBackColor = true;
+            this.saveBtn.Visible = false;
+            this.saveBtn.Click += new System.EventHandler(this.saveChanges);
+            // 
             // taskTracker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(835, 586);
+            this.Controls.Add(this.saveBtn);
             this.Controls.Add(this.completedRadioButton);
             this.Controls.Add(this.currentRadioButton);
             this.Controls.Add(this.delCatImgBtn);
             this.Controls.Add(this.addCatImgBtn);
-            this.Controls.Add(this.saveImgBtn);
             this.Controls.Add(this.saveLbl);
             this.Controls.Add(this.taskBodyTextBox);
             this.Controls.Add(this.taskNametextBox);
@@ -322,7 +319,6 @@
             this.tasksTab.ResumeLayout(false);
             this.currenttabPage.ResumeLayout(false);
             this.completedtabPage.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.saveImgBtn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.addCatImgBtn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.delCatImgBtn)).EndInit();
             this.ResumeLayout(false);
@@ -349,12 +345,12 @@
         private System.Windows.Forms.RichTextBox taskBodyTextBox;
         private System.Windows.Forms.Label saveLbl;
         private System.Windows.Forms.Timer timer;
-        private System.Windows.Forms.PictureBox saveImgBtn;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.PictureBox addCatImgBtn;
         private System.Windows.Forms.PictureBox delCatImgBtn;
         private System.Windows.Forms.RadioButton currentRadioButton;
         private System.Windows.Forms.RadioButton completedRadioButton;
+        private System.Windows.Forms.Button saveBtn;
     }
 }
 

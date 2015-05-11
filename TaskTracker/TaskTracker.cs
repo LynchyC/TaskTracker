@@ -185,13 +185,13 @@ namespace TaskTracker
                 taskNametextBox.Visible = true;
                 taskNamelbl.Visible = true;
                 taskBodyTextBox.Visible = true;
-                saveImgBtn.Visible = true;
+                saveBtn.Visible = true;
                 currentRadioButton.Visible = true;
                 completedRadioButton.Visible = true;
             }
         }
 
-        private async void loadTaskDetails(object sender, EventArgs e)
+        private async void LoadTaskDetails(object sender, EventArgs e)
         {
             Task doc = await task.GetTasksDetails(categoriesBox.SelectedItem.ToString(), WhichTabIsTaskSelected(tasksTab.SelectedTab.ToString()));
             if (functionCalled == true)
@@ -230,8 +230,10 @@ namespace TaskTracker
             string statusCheck = await status();
             if (statusCheck != radioCheck.Text) 
             {
-                taskStatus(sender, e);
-                MessageBox.Show("Task set to Completed", "Task Status");
+                await task.TaskStatus(categoriesBox.SelectedItem.ToString(), taskNametextBox.Text, statusCheck);
+                await LoadTaskList();
+                string taskStatus = radioCheck.Text == "Current" ? "Task set back to Current." : "Task set to Completed.";
+                MessageBox.Show(taskStatus, "Task Status");
             }         
                             
             await task.SaveChanges(taskBodyTextBox.Text, taskNametextBox.Text, categoriesBox.SelectedItem.ToString());
@@ -262,6 +264,7 @@ namespace TaskTracker
             saveLbl.Visible = false;
         }
 
+        #region Bevel Image on hover
         private void BevelImage(object sender, EventArgs e)
         {
             ((PictureBox)sender).BorderStyle = BorderStyle.Fixed3D;
@@ -271,7 +274,7 @@ namespace TaskTracker
         {
             ((PictureBox)sender).BorderStyle = BorderStyle.None;
         }
-
+        #endregion
 
     }
 }
