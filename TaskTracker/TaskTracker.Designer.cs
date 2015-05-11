@@ -237,8 +237,8 @@
             this.toolTip.SetToolTip(this.saveImgBtn, "Save");
             this.saveImgBtn.Visible = false;
             this.saveImgBtn.Click += new System.EventHandler(this.saveChanges);
-            this.saveImgBtn.MouseEnter += new System.EventHandler(this.BevelImage);
             this.saveImgBtn.MouseLeave += new System.EventHandler(this.UnBevelImage);
+            this.saveImgBtn.MouseHover += new System.EventHandler(this.BevelImage);
             // 
             // addCatImgBtn
             // 
@@ -251,8 +251,8 @@
             this.addCatImgBtn.TabStop = false;
             this.toolTip.SetToolTip(this.addCatImgBtn, "Add Category");
             this.addCatImgBtn.Click += new System.EventHandler(this.AddCategoryBtn);
-            this.addCatImgBtn.MouseEnter += new System.EventHandler(this.BevelImage);
             this.addCatImgBtn.MouseLeave += new System.EventHandler(this.UnBevelImage);
+            this.addCatImgBtn.MouseHover += new System.EventHandler(this.BevelImage);
             // 
             // delCatImgBtn
             // 
@@ -265,8 +265,8 @@
             this.delCatImgBtn.TabStop = false;
             this.toolTip.SetToolTip(this.delCatImgBtn, "Delete Category");
             this.delCatImgBtn.Click += new System.EventHandler(this.DeleteCategoryBtn);
-            this.delCatImgBtn.MouseEnter += new System.EventHandler(this.BevelImage);
             this.delCatImgBtn.MouseLeave += new System.EventHandler(this.UnBevelImage);
+            this.delCatImgBtn.MouseHover += new System.EventHandler(this.BevelImage);
             // 
             // taskTracker
             // 

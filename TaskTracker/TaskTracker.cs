@@ -23,6 +23,8 @@ namespace TaskTracker
         }
 
         private bool startUp = true;
+        private bool functionCalled = false;
+        private string body = "";
 
         private async void FormLoad(object sender, EventArgs e)
         {
@@ -193,11 +195,24 @@ namespace TaskTracker
         private async void loadTaskDetails(object sender, EventArgs e)
         {
             Task doc = await task.GetTasksDetails(categoriesBox.SelectedItem.ToString(), WhichTabIsTaskSelected(tasksTab.SelectedTab.ToString()));
+            if (functionCalled == true)
+            {                
+                if (changesMade(taskBodyTextBox.Text) == false)
+                {
+                    DialogResult result = new DialogResult();
+                    result = MessageBox.Show("You are about to change tasks without saving your progress. Are you sure you want to change?", "Save Changes", MessageBoxButtons.YesNo);
+                    if (result == DialogResult.No)
+                        return;                    
+                }    
+            }
+
             taskNametextBox.Text = doc.TaskName;
             taskBodyTextBox.Text = doc.TaskBody;
+            body = taskBodyTextBox.Text;
             if (this.Width == 249)
             {
                 startUp = false;
+                functionCalled = true;
                 windowSize(sender, e);
             }
                 
@@ -205,12 +220,21 @@ namespace TaskTracker
 
         private async void saveChanges(object sender, EventArgs e)
         {
+            body = taskBodyTextBox.Text;
             await task.SaveChanges(taskBodyTextBox.Text, taskNametextBox.Text, categoriesBox.SelectedItem.ToString());
             saveLbl.Visible = true;
             timer.Interval = 2000;
             timer.Tick += new System.EventHandler(this.timerTick);
             saveLbl.Visible = true;
             timer.Start();
+        }
+
+        private bool changesMade(string taskBody) 
+        {
+            if (body == taskBody)
+                return true;
+            else
+                return false;
         }
 
         private void timerTick(object sender, EventArgs e)
