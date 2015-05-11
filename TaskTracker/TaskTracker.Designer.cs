@@ -53,6 +53,9 @@
             this.currentRadioButton = new System.Windows.Forms.RadioButton();
             this.completedRadioButton = new System.Windows.Forms.RadioButton();
             this.saveBtn = new System.Windows.Forms.Button();
+            this.taskNameLabel = new System.Windows.Forms.Label();
+            this.taskBodyLbl = new System.Windows.Forms.Label();
+            this.statusLbl = new System.Windows.Forms.Label();
             this.contextMenuStrip.SuspendLayout();
             this.tasksTab.SuspendLayout();
             this.currenttabPage.SuspendLayout();
@@ -79,8 +82,9 @@
             this.completedTaskListBox.FormattingEnabled = true;
             this.completedTaskListBox.Location = new System.Drawing.Point(3, 3);
             this.completedTaskListBox.Name = "completedTaskListBox";
-            this.completedTaskListBox.Size = new System.Drawing.Size(189, 465);
+            this.completedTaskListBox.Size = new System.Drawing.Size(189, 460);
             this.completedTaskListBox.TabIndex = 1;
+            this.toolTip.SetToolTip(this.completedTaskListBox, "List of completed tasks");
             this.completedTaskListBox.DoubleClick += new System.EventHandler(this.LoadTaskDetails);
             this.completedTaskListBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.taskListMouseDown);
             // 
@@ -120,7 +124,7 @@
             // addTaskTextBox
             // 
             this.addTaskTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addTaskTextBox.Location = new System.Drawing.Point(13, 554);
+            this.addTaskTextBox.Location = new System.Drawing.Point(12, 579);
             this.addTaskTextBox.Name = "addTaskTextBox";
             this.addTaskTextBox.Size = new System.Drawing.Size(121, 20);
             this.addTaskTextBox.TabIndex = 4;
@@ -128,7 +132,7 @@
             // addTaskBtn
             // 
             this.addTaskBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addTaskBtn.Location = new System.Drawing.Point(140, 552);
+            this.addTaskBtn.Location = new System.Drawing.Point(139, 577);
             this.addTaskBtn.Name = "addTaskBtn";
             this.addTaskBtn.Size = new System.Drawing.Size(75, 23);
             this.addTaskBtn.TabIndex = 6;
@@ -138,14 +142,12 @@
             // 
             // tasksTab
             // 
-            this.tasksTab.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.tasksTab.Controls.Add(this.currenttabPage);
             this.tasksTab.Controls.Add(this.completedtabPage);
-            this.tasksTab.Location = new System.Drawing.Point(12, 40);
+            this.tasksTab.Location = new System.Drawing.Point(12, 51);
             this.tasksTab.Name = "tasksTab";
             this.tasksTab.SelectedIndex = 0;
-            this.tasksTab.Size = new System.Drawing.Size(203, 497);
+            this.tasksTab.Size = new System.Drawing.Size(203, 492);
             this.tasksTab.TabIndex = 7;
             this.tasksTab.Tag = "";
             // 
@@ -169,6 +171,7 @@
             this.currentTaskListBox.Name = "currentTaskListBox";
             this.currentTaskListBox.Size = new System.Drawing.Size(189, 465);
             this.currentTaskListBox.TabIndex = 0;
+            this.toolTip.SetToolTip(this.currentTaskListBox, "List of current tasks");
             this.currentTaskListBox.DoubleClick += new System.EventHandler(this.LoadTaskDetails);
             this.currentTaskListBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.taskListMouseDown);
             // 
@@ -178,7 +181,7 @@
             this.completedtabPage.Location = new System.Drawing.Point(4, 22);
             this.completedtabPage.Name = "completedtabPage";
             this.completedtabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.completedtabPage.Size = new System.Drawing.Size(195, 471);
+            this.completedtabPage.Size = new System.Drawing.Size(195, 466);
             this.completedtabPage.TabIndex = 1;
             this.completedtabPage.Tag = "completed";
             this.completedtabPage.Text = "Completed Tasks";
@@ -205,10 +208,9 @@
             // 
             // taskBodyTextBox
             // 
-            this.taskBodyTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.taskBodyTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.taskBodyTextBox.Location = new System.Drawing.Point(257, 62);
+            this.taskBodyTextBox.Location = new System.Drawing.Point(257, 73);
             this.taskBodyTextBox.Name = "taskBodyTextBox";
             this.taskBodyTextBox.Size = new System.Drawing.Size(564, 468);
             this.taskBodyTextBox.TabIndex = 10;
@@ -217,8 +219,9 @@
             // 
             // saveLbl
             // 
+            this.saveLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.saveLbl.AutoSize = true;
-            this.saveLbl.Location = new System.Drawing.Point(741, 557);
+            this.saveLbl.Location = new System.Drawing.Point(739, 582);
             this.saveLbl.Name = "saveLbl";
             this.saveLbl.Size = new System.Drawing.Size(82, 13);
             this.saveLbl.TabIndex = 12;
@@ -234,7 +237,7 @@
             this.addCatImgBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.addCatImgBtn.TabIndex = 14;
             this.addCatImgBtn.TabStop = false;
-            this.toolTip.SetToolTip(this.addCatImgBtn, "Add Category");
+            this.toolTip.SetToolTip(this.addCatImgBtn, "Add a new Category");
             this.addCatImgBtn.Click += new System.EventHandler(this.AddCategoryBtn);
             this.addCatImgBtn.MouseLeave += new System.EventHandler(this.UnBevelImage);
             this.addCatImgBtn.MouseHover += new System.EventHandler(this.BevelImage);
@@ -248,7 +251,7 @@
             this.delCatImgBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.delCatImgBtn.TabIndex = 15;
             this.delCatImgBtn.TabStop = false;
-            this.toolTip.SetToolTip(this.delCatImgBtn, "Delete Category");
+            this.toolTip.SetToolTip(this.delCatImgBtn, "Delete currently selected Category");
             this.delCatImgBtn.Click += new System.EventHandler(this.DeleteCategoryBtn);
             this.delCatImgBtn.MouseLeave += new System.EventHandler(this.UnBevelImage);
             this.delCatImgBtn.MouseHover += new System.EventHandler(this.BevelImage);
@@ -256,7 +259,7 @@
             // currentRadioButton
             // 
             this.currentRadioButton.AutoSize = true;
-            this.currentRadioButton.Location = new System.Drawing.Point(520, 16);
+            this.currentRadioButton.Location = new System.Drawing.Point(569, 16);
             this.currentRadioButton.Name = "currentRadioButton";
             this.currentRadioButton.Size = new System.Drawing.Size(59, 17);
             this.currentRadioButton.TabIndex = 16;
@@ -268,7 +271,7 @@
             // completedRadioButton
             // 
             this.completedRadioButton.AutoSize = true;
-            this.completedRadioButton.Location = new System.Drawing.Point(585, 16);
+            this.completedRadioButton.Location = new System.Drawing.Point(634, 16);
             this.completedRadioButton.Name = "completedRadioButton";
             this.completedRadioButton.Size = new System.Drawing.Size(75, 17);
             this.completedRadioButton.TabIndex = 17;
@@ -291,11 +294,42 @@
             this.saveBtn.Visible = false;
             this.saveBtn.Click += new System.EventHandler(this.saveChanges);
             // 
+            // taskNameLabel
+            // 
+            this.taskNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.taskNameLabel.AutoSize = true;
+            this.taskNameLabel.Location = new System.Drawing.Point(12, 563);
+            this.taskNameLabel.Name = "taskNameLabel";
+            this.taskNameLabel.Size = new System.Drawing.Size(90, 13);
+            this.taskNameLabel.TabIndex = 19;
+            this.taskNameLabel.Text = "New Task Name:";
+            // 
+            // taskBodyLbl
+            // 
+            this.taskBodyLbl.AutoSize = true;
+            this.taskBodyLbl.Location = new System.Drawing.Point(254, 51);
+            this.taskBodyLbl.Name = "taskBodyLbl";
+            this.taskBodyLbl.Size = new System.Drawing.Size(61, 13);
+            this.taskBodyLbl.TabIndex = 20;
+            this.taskBodyLbl.Text = "Task Body:";
+            // 
+            // statusLbl
+            // 
+            this.statusLbl.AutoSize = true;
+            this.statusLbl.Location = new System.Drawing.Point(528, 18);
+            this.statusLbl.Name = "statusLbl";
+            this.statusLbl.Size = new System.Drawing.Size(40, 13);
+            this.statusLbl.TabIndex = 21;
+            this.statusLbl.Text = "Status:";
+            // 
             // taskTracker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(835, 586);
+            this.ClientSize = new System.Drawing.Size(835, 611);
+            this.Controls.Add(this.statusLbl);
+            this.Controls.Add(this.taskBodyLbl);
+            this.Controls.Add(this.taskNameLabel);
             this.Controls.Add(this.saveBtn);
             this.Controls.Add(this.completedRadioButton);
             this.Controls.Add(this.currentRadioButton);
@@ -351,6 +385,9 @@
         private System.Windows.Forms.RadioButton currentRadioButton;
         private System.Windows.Forms.RadioButton completedRadioButton;
         private System.Windows.Forms.Button saveBtn;
+        private System.Windows.Forms.Label taskNameLabel;
+        private System.Windows.Forms.Label taskBodyLbl;
+        private System.Windows.Forms.Label statusLbl;
     }
 }
 
