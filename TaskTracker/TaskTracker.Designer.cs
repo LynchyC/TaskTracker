@@ -51,6 +51,8 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.addCatImgBtn = new System.Windows.Forms.PictureBox();
             this.delCatImgBtn = new System.Windows.Forms.PictureBox();
+            this.currentRadioButton = new System.Windows.Forms.RadioButton();
+            this.completedRadioButton = new System.Windows.Forms.RadioButton();
             this.contextMenuStrip.SuspendLayout();
             this.tasksTab.SuspendLayout();
             this.currenttabPage.SuspendLayout();
@@ -268,11 +270,37 @@
             this.delCatImgBtn.MouseLeave += new System.EventHandler(this.UnBevelImage);
             this.delCatImgBtn.MouseHover += new System.EventHandler(this.BevelImage);
             // 
+            // currentRadioButton
+            // 
+            this.currentRadioButton.AutoSize = true;
+            this.currentRadioButton.Location = new System.Drawing.Point(600, 18);
+            this.currentRadioButton.Name = "currentRadioButton";
+            this.currentRadioButton.Size = new System.Drawing.Size(59, 17);
+            this.currentRadioButton.TabIndex = 16;
+            this.currentRadioButton.TabStop = true;
+            this.currentRadioButton.Text = "Current";
+            this.currentRadioButton.UseVisualStyleBackColor = true;
+            this.currentRadioButton.Visible = false;
+            // 
+            // completedRadioButton
+            // 
+            this.completedRadioButton.AutoSize = true;
+            this.completedRadioButton.Location = new System.Drawing.Point(665, 19);
+            this.completedRadioButton.Name = "completedRadioButton";
+            this.completedRadioButton.Size = new System.Drawing.Size(75, 17);
+            this.completedRadioButton.TabIndex = 17;
+            this.completedRadioButton.TabStop = true;
+            this.completedRadioButton.Text = "Completed";
+            this.completedRadioButton.UseVisualStyleBackColor = true;
+            this.completedRadioButton.Visible = false;
+            // 
             // taskTracker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(835, 586);
+            this.Controls.Add(this.completedRadioButton);
+            this.Controls.Add(this.currentRadioButton);
             this.Controls.Add(this.delCatImgBtn);
             this.Controls.Add(this.addCatImgBtn);
             this.Controls.Add(this.saveImgBtn);
@@ -284,6 +312,7 @@
             this.Controls.Add(this.addTaskBtn);
             this.Controls.Add(this.addTaskTextBox);
             this.Controls.Add(this.categoriesBox);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MinimumSize = new System.Drawing.Size(249, 366);
             this.Name = "taskTracker";
             this.Text = "Task Tracker";
@@ -324,6 +353,8 @@
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.PictureBox addCatImgBtn;
         private System.Windows.Forms.PictureBox delCatImgBtn;
+        private System.Windows.Forms.RadioButton currentRadioButton;
+        private System.Windows.Forms.RadioButton completedRadioButton;
     }
 }
 

@@ -254,5 +254,22 @@ namespace TaskTracker
             await Categories.FindOneAndUpdateAsync(filter, update);
             return true;
         }
+
+        public async Task<string> CheckStatus(string catName, string taskName) 
+        {
+            var builder = Builders<Category>.Filter;
+            var filter = builder.Eq("tasks._id", ObjectId.Parse(await GetTaskID(catName, taskName)));
+            var find = await Categories.Find<Category>(filter).ToListAsync<Category>();
+            foreach (var item in find[0].Task)
+            {
+                if (item.TaskName == taskName)
+                {
+                    string status = item.Status.ToString();
+                    return status;
+                }
+            }            
+
+            return "";
+        }
     }
 }

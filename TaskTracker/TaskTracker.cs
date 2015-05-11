@@ -28,12 +28,11 @@ namespace TaskTracker
 
         private async void FormLoad(object sender, EventArgs e)
         {
-            await LoadCategoryList();
             this.Width = 246;
             this.Height = 366;
-            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            await LoadCategoryList();
         }
-
+         
         private async void TaskLoad(object sender, EventArgs e)
         {
             await LoadTaskList();
@@ -176,11 +175,9 @@ namespace TaskTracker
 
         private void windowSize(object sender, EventArgs e)
         {
-            if (startUp == true)
-            {
+            if (startUp == true)            
                 return;
-            }
-
+            
             if (this.WindowState == FormWindowState.Normal)
             {
                 this.Width = 851;
@@ -189,6 +186,8 @@ namespace TaskTracker
                 taskNamelbl.Visible = true;
                 taskBodyTextBox.Visible = true;
                 saveImgBtn.Visible = true;
+                currentRadioButton.Visible = true;
+                completedRadioButton.Visible = true;
             }
         }
 
@@ -196,31 +195,45 @@ namespace TaskTracker
         {
             Task doc = await task.GetTasksDetails(categoriesBox.SelectedItem.ToString(), WhichTabIsTaskSelected(tasksTab.SelectedTab.ToString()));
             if (functionCalled == true)
-            {                
-                if (changesMade(taskBodyTextBox.Text) == false)
+            {
+                var radioCheck = this.Controls.OfType<RadioButton>().FirstOrDefault(n => n.Checked);
+                string statusCheck = await status();
+                if (changesMade(taskBodyTextBox.Text) == false || radioCheck.Text != statusCheck)
                 {
                     DialogResult result = new DialogResult();
                     result = MessageBox.Show("You are about to change tasks without saving your progress. Are you sure you want to change?", "Save Changes", MessageBoxButtons.YesNo);
                     if (result == DialogResult.No)
-                        return;                    
+                        return;
                 }    
             }
 
             taskNametextBox.Text = doc.TaskName;
             taskBodyTextBox.Text = doc.TaskBody;
+            if (doc.Status == Task._Status.Current.ToString())
+                currentRadioButton.Select();
+            else
+                completedRadioButton.Select();
+
             body = taskBodyTextBox.Text;
             if (this.Width == 249)
             {
                 startUp = false;
                 functionCalled = true;
                 windowSize(sender, e);
-            }
-                
+            }                
         }
 
         private async void saveChanges(object sender, EventArgs e)
         {
             body = taskBodyTextBox.Text;
+            var radioCheck = this.Controls.OfType<RadioButton>().FirstOrDefault(n => n.Checked);
+            string statusCheck = await status();
+            if (statusCheck != radioCheck.Text) 
+            {
+                taskStatus(sender, e);
+                MessageBox.Show("Task set to Completed", "Task Status");
+            }         
+                            
             await task.SaveChanges(taskBodyTextBox.Text, taskNametextBox.Text, categoriesBox.SelectedItem.ToString());
             saveLbl.Visible = true;
             timer.Interval = 2000;
@@ -235,6 +248,12 @@ namespace TaskTracker
                 return true;
             else
                 return false;
+        }
+
+        private async Task<string> status() 
+        {            
+            string radioStatus = await task.CheckStatus(categoriesBox.SelectedItem.ToString(), taskNametextBox.Text);
+            return radioStatus;
         }
 
         private void timerTick(object sender, EventArgs e)
