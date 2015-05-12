@@ -85,7 +85,7 @@
             this.completedTaskListBox.Size = new System.Drawing.Size(189, 460);
             this.completedTaskListBox.TabIndex = 1;
             this.toolTip.SetToolTip(this.completedTaskListBox, "List of completed tasks");
-            this.completedTaskListBox.DoubleClick += new System.EventHandler(this.LoadTaskDetails);
+            this.completedTaskListBox.Click += new System.EventHandler(this.LoadTaskDetails);
             this.completedTaskListBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.taskListMouseDown);
             // 
             // contextMenuStrip
@@ -124,7 +124,7 @@
             // addTaskTextBox
             // 
             this.addTaskTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addTaskTextBox.Location = new System.Drawing.Point(12, 579);
+            this.addTaskTextBox.Location = new System.Drawing.Point(15, 567);
             this.addTaskTextBox.Name = "addTaskTextBox";
             this.addTaskTextBox.Size = new System.Drawing.Size(121, 20);
             this.addTaskTextBox.TabIndex = 4;
@@ -132,7 +132,7 @@
             // addTaskBtn
             // 
             this.addTaskBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.addTaskBtn.Location = new System.Drawing.Point(139, 577);
+            this.addTaskBtn.Location = new System.Drawing.Point(142, 565);
             this.addTaskBtn.Name = "addTaskBtn";
             this.addTaskBtn.Size = new System.Drawing.Size(75, 23);
             this.addTaskBtn.TabIndex = 6;
@@ -142,6 +142,8 @@
             // 
             // tasksTab
             // 
+            this.tasksTab.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.tasksTab.Controls.Add(this.currenttabPage);
             this.tasksTab.Controls.Add(this.completedtabPage);
             this.tasksTab.Location = new System.Drawing.Point(12, 51);
@@ -157,7 +159,7 @@
             this.currenttabPage.Location = new System.Drawing.Point(4, 22);
             this.currenttabPage.Name = "currenttabPage";
             this.currenttabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.currenttabPage.Size = new System.Drawing.Size(195, 471);
+            this.currenttabPage.Size = new System.Drawing.Size(195, 466);
             this.currenttabPage.TabIndex = 0;
             this.currenttabPage.Tag = "current";
             this.currenttabPage.Text = "Current Tasks";
@@ -169,10 +171,10 @@
             this.currentTaskListBox.FormattingEnabled = true;
             this.currentTaskListBox.Location = new System.Drawing.Point(3, 3);
             this.currentTaskListBox.Name = "currentTaskListBox";
-            this.currentTaskListBox.Size = new System.Drawing.Size(189, 465);
+            this.currentTaskListBox.Size = new System.Drawing.Size(189, 460);
             this.currentTaskListBox.TabIndex = 0;
             this.toolTip.SetToolTip(this.currentTaskListBox, "List of current tasks");
-            this.currentTaskListBox.DoubleClick += new System.EventHandler(this.LoadTaskDetails);
+            this.currentTaskListBox.Click += new System.EventHandler(this.LoadTaskDetails);
             this.currentTaskListBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.taskListMouseDown);
             // 
             // completedtabPage
@@ -208,7 +210,8 @@
             // 
             // taskBodyTextBox
             // 
-            this.taskBodyTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.taskBodyTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.taskBodyTextBox.Location = new System.Drawing.Point(257, 73);
             this.taskBodyTextBox.Name = "taskBodyTextBox";
@@ -221,7 +224,7 @@
             // 
             this.saveLbl.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.saveLbl.AutoSize = true;
-            this.saveLbl.Location = new System.Drawing.Point(739, 582);
+            this.saveLbl.Location = new System.Drawing.Point(739, 570);
             this.saveLbl.Name = "saveLbl";
             this.saveLbl.Size = new System.Drawing.Size(82, 13);
             this.saveLbl.TabIndex = 12;
@@ -298,7 +301,7 @@
             // 
             this.taskNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.taskNameLabel.AutoSize = true;
-            this.taskNameLabel.Location = new System.Drawing.Point(12, 563);
+            this.taskNameLabel.Location = new System.Drawing.Point(15, 551);
             this.taskNameLabel.Name = "taskNameLabel";
             this.taskNameLabel.Size = new System.Drawing.Size(90, 13);
             this.taskNameLabel.TabIndex = 19;
@@ -321,12 +324,13 @@
             this.statusLbl.Size = new System.Drawing.Size(40, 13);
             this.statusLbl.TabIndex = 21;
             this.statusLbl.Text = "Status:";
+            this.statusLbl.Visible = false;
             // 
             // taskTracker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(835, 611);
+            this.ClientSize = new System.Drawing.Size(835, 612);
             this.Controls.Add(this.statusLbl);
             this.Controls.Add(this.taskBodyLbl);
             this.Controls.Add(this.taskNameLabel);

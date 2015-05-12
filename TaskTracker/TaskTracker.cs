@@ -29,7 +29,7 @@ namespace TaskTracker
         private async void FormLoad(object sender, EventArgs e)
         {
             this.Width = 246;
-            this.Height = 366;
+            this.Height = 380;
             await LoadCategoryList();
         }
          
@@ -59,9 +59,11 @@ namespace TaskTracker
                 // Grabs all the task names from the array inside the mongo collection
                 List<string> currenttasks = await task.FindTaskNamesByTab(categoriesBox.SelectedItem.ToString(), "current");
                 currentTaskListBox.DataSource = currenttasks;
+                currentTaskListBox.SelectedIndex = -1;
 
                 List<string> completedTasks = await task.FindTaskNamesByTab(categoriesBox.SelectedItem.ToString(), "completed");
                 completedTaskListBox.DataSource = completedTasks;
+                completedTaskListBox.SelectedIndex = -1;
             }
             else
             {
@@ -188,6 +190,7 @@ namespace TaskTracker
                 saveBtn.Visible = true;
                 currentRadioButton.Visible = true;
                 completedRadioButton.Visible = true;
+                statusLbl.Visible = true;
             }
         }
 
