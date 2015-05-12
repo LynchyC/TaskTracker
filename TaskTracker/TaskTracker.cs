@@ -38,19 +38,7 @@ namespace TaskTracker
             await LoadTaskList();
         }
 
-        private async Task<bool> LoadCategoryList()
-        {
-            await task.CreateIndex();
-
-            // Grabs all the category names from the mongo collection
-            List<string> categories = await task.FindCategoryNames();
-
-            // Create the default value to guide the user. 
-            categories.Insert(0, "Select a category...");
-            categoriesBox.DataSource = categories;
-            return true;
-        }
-
+        #region Task Methods
         private async Task<bool> LoadTaskList()
         {
             // Ignores 'Select a category...' - Invalid category!
@@ -72,36 +60,6 @@ namespace TaskTracker
             }
 
             return true;
-        }
-
-        private async void AddCategoryBtn(object sender, EventArgs e)
-        {
-            AddCategory addCat = new AddCategory();
-            // Runs AddCategory form - gets string value for created category. 
-            DialogResult res = (DialogResult)addCat.ShowDialog();
-            if (res == DialogResult.OK)
-            {
-                await task.InsertCategory(addCat.CategoryName);
-                await LoadCategoryList();
-                // Sets the drop down list to go directly to newly created category.
-                categoriesBox.SelectedIndex = categoriesBox.Items.Count - 1;
-            }
-        }
-
-        private async void DeleteCategoryBtn(object sender, EventArgs e)
-        {
-            if (categoriesBox.SelectedIndex == 0)
-                MessageBox.Show("Please have the drop down list on a valid category in order to delete");
-            else
-            {
-                DialogResult result = MessageBox.Show("Are you sure you want to delete the category: '" + categoriesBox.SelectedItem.ToString() + "'?", "Delete Category", MessageBoxButtons.OKCancel);
-                if (result == DialogResult.OK)
-                {
-                    await task.DeleteCategory(categoriesBox.SelectedItem.ToString());
-                    await LoadCategoryList();
-                    completedTaskListBox.DataSource = null;
-                }
-            }
         }
 
         private async void AddTaskBtn(object sender, EventArgs e)
@@ -162,12 +120,130 @@ namespace TaskTracker
             }
         }
 
+        private async void LoadTaskDetails(object sender, EventArgs e)
+        {
+            Task doc = await task.GetTasksDetails(categoriesBox.SelectedItem.ToString(), WhichTabIsTaskSelected(tasksTab.SelectedTab.ToString()));
+            if (functionCalled == true)
+            {
+                var radioCheck = this.Controls.OfType<RadioButton>().FirstOrDefault(n => n.Checked);
+                string statusCheck = await status();
+                if (changesMade(taskBodyTextBox.Text) == false || radioCheck.Text != statusCheck)
+                {
+                    DialogResult result = new DialogResult();
+                    result = MessageBox.Show("You are about to change tasks without saving your progress. Are you sure you want to change?", "Save Changes", MessageBoxButtons.YesNo);
+                    if (result == DialogResult.No)
+                        return;
+                }
+            }
+
+            taskNametextBox.Text = doc.TaskName;
+            taskBodyTextBox.Text = doc.TaskBody;
+            if (doc.Status == Task._Status.Current.ToString())
+                currentRadioButton.Select();
+            else
+                completedRadioButton.Select();
+
+            body = taskBodyTextBox.Text;
+            if (this.Width == 249)
+            {
+                startUp = false;
+                functionCalled = true;
+                windowSize(sender, e);
+            }
+        }
+
         private async void taskStatus(object sender, EventArgs e)
         {
             string tab = tasksTab.SelectedTab.Tag.ToString() == "current" ? Task._Status.Current.ToString() : Task._Status.Completed.ToString();
             await task.TaskStatus(categoriesBox.SelectedItem.ToString(), WhichTabIsTaskSelected(tasksTab.SelectedTab.Tag.ToString()), tab);
             await LoadTaskList();
         }
+
+        private async void saveChanges(object sender, EventArgs e)
+        {
+            body = taskBodyTextBox.Text;
+            var radioCheck = this.Controls.OfType<RadioButton>().FirstOrDefault(n => n.Checked);
+            string statusCheck = await status();
+            if (statusCheck != radioCheck.Text)
+            {
+                await task.TaskStatus(categoriesBox.SelectedItem.ToString(), taskNametextBox.Text, statusCheck);
+                await LoadTaskList();
+                string taskStatus = radioCheck.Text == "Current" ? "Task set back to Current." : "Task set to Completed.";
+                MessageBox.Show(taskStatus, "Task Status");
+            }
+
+            await task.SaveChanges(taskBodyTextBox.Text, taskNametextBox.Text, categoriesBox.SelectedItem.ToString());
+            saveLbl.Visible = true;
+            timer.Interval = 2000;
+            timer.Tick += new System.EventHandler(this.timerTick);
+            saveLbl.Visible = true;
+            timer.Start();
+        }
+
+        private async Task<string> status()
+        {
+            string radioStatus = await task.CheckStatus(categoriesBox.SelectedItem.ToString(), taskNametextBox.Text);
+            return radioStatus;
+        }
+
+        #endregion
+
+        #region Category Methods
+        private async Task<bool> LoadCategoryList()
+        {
+            await task.CreateIndex();
+
+            // Grabs all the category names from the mongo collection
+            List<string> categories = await task.FindCategoryNames();
+
+            // Create the default value to guide the user. 
+            categories.Insert(0, "Select a category...");
+            categoriesBox.DataSource = categories;
+            return true;
+        }
+
+        private async void AddCategoryBtn(object sender, EventArgs e)
+        {
+            AddCategory addCat = new AddCategory();
+            // Runs AddCategory form - gets string value for created category. 
+            DialogResult res = (DialogResult)addCat.ShowDialog();
+            if (res == DialogResult.OK)
+            {
+                await task.InsertCategory(addCat.CategoryName);
+                await LoadCategoryList();
+                // Sets the drop down list to go directly to newly created category.
+                categoriesBox.SelectedIndex = categoriesBox.Items.Count - 1;
+            }
+        }
+
+        private async void DeleteCategoryBtn(object sender, EventArgs e)
+        {
+            if (categoriesBox.SelectedIndex == 0)
+                MessageBox.Show("Please have the drop down list on a valid category in order to delete");
+            else
+            {
+                DialogResult result = MessageBox.Show("Are you sure you want to delete the category: '" + categoriesBox.SelectedItem.ToString() + "'?", "Delete Category", MessageBoxButtons.OKCancel);
+                if (result == DialogResult.OK)
+                {
+                    await task.DeleteCategory(categoriesBox.SelectedItem.ToString());
+                    await LoadCategoryList();
+                    completedTaskListBox.DataSource = null;
+                }
+            }
+        }
+        #endregion
+
+        #region Bevel Image on hover
+        private void BevelImage(object sender, EventArgs e)
+        {
+            ((PictureBox)sender).BorderStyle = BorderStyle.Fixed3D;
+        }
+
+        private void UnBevelImage(object sender, EventArgs e)
+        {
+            ((PictureBox)sender).BorderStyle = BorderStyle.None;
+        }
+        #endregion
 
         private string WhichTabIsTaskSelected(string tag)
         {
@@ -194,59 +270,6 @@ namespace TaskTracker
             }
         }
 
-        private async void LoadTaskDetails(object sender, EventArgs e)
-        {
-            Task doc = await task.GetTasksDetails(categoriesBox.SelectedItem.ToString(), WhichTabIsTaskSelected(tasksTab.SelectedTab.ToString()));
-            if (functionCalled == true)
-            {
-                var radioCheck = this.Controls.OfType<RadioButton>().FirstOrDefault(n => n.Checked);
-                string statusCheck = await status();
-                if (changesMade(taskBodyTextBox.Text) == false || radioCheck.Text != statusCheck)
-                {
-                    DialogResult result = new DialogResult();
-                    result = MessageBox.Show("You are about to change tasks without saving your progress. Are you sure you want to change?", "Save Changes", MessageBoxButtons.YesNo);
-                    if (result == DialogResult.No)
-                        return;
-                }    
-            }
-
-            taskNametextBox.Text = doc.TaskName;
-            taskBodyTextBox.Text = doc.TaskBody;
-            if (doc.Status == Task._Status.Current.ToString())
-                currentRadioButton.Select();
-            else
-                completedRadioButton.Select();
-
-            body = taskBodyTextBox.Text;
-            if (this.Width == 249)
-            {
-                startUp = false;
-                functionCalled = true;
-                windowSize(sender, e);
-            }                
-        }
-
-        private async void saveChanges(object sender, EventArgs e)
-        {
-            body = taskBodyTextBox.Text;
-            var radioCheck = this.Controls.OfType<RadioButton>().FirstOrDefault(n => n.Checked);
-            string statusCheck = await status();
-            if (statusCheck != radioCheck.Text) 
-            {
-                await task.TaskStatus(categoriesBox.SelectedItem.ToString(), taskNametextBox.Text, statusCheck);
-                await LoadTaskList();
-                string taskStatus = radioCheck.Text == "Current" ? "Task set back to Current." : "Task set to Completed.";
-                MessageBox.Show(taskStatus, "Task Status");
-            }         
-                            
-            await task.SaveChanges(taskBodyTextBox.Text, taskNametextBox.Text, categoriesBox.SelectedItem.ToString());
-            saveLbl.Visible = true;
-            timer.Interval = 2000;
-            timer.Tick += new System.EventHandler(this.timerTick);
-            saveLbl.Visible = true;
-            timer.Start();
-        }
-
         private bool changesMade(string taskBody) 
         {
             if (body == taskBody)
@@ -255,29 +278,17 @@ namespace TaskTracker
                 return false;
         }
 
-        private async Task<string> status() 
-        {            
-            string radioStatus = await task.CheckStatus(categoriesBox.SelectedItem.ToString(), taskNametextBox.Text);
-            return radioStatus;
-        }
-
         private void timerTick(object sender, EventArgs e)
         {
             timer.Stop();
             saveLbl.Visible = false;
         }
 
-        #region Bevel Image on hover
-        private void BevelImage(object sender, EventArgs e)
+        private void input_KeyDown(object sender, KeyEventArgs e)
         {
-            ((PictureBox)sender).BorderStyle = BorderStyle.Fixed3D;
+            if (e.KeyData == Keys.Enter)
+                addTaskBtn.PerformClick();
         }
-
-        private void UnBevelImage(object sender, EventArgs e)
-        {
-            ((PictureBox)sender).BorderStyle = BorderStyle.None;
-        }
-        #endregion
 
     }
 }
