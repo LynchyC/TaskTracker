@@ -26,5 +26,11 @@ namespace TaskTracker
             else
                 CategoryName = catName.Text;
         }
+
+        private void input_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+                addCategoryBtn.PerformClick();
+        }
     }
 }

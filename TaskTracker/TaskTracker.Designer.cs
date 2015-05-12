@@ -287,7 +287,7 @@
             // 
             this.saveBtn.Image = ((System.Drawing.Image)(resources.GetObject("saveBtn.Image")));
             this.saveBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.saveBtn.Location = new System.Drawing.Point(744, 13);
+            this.saveBtn.Location = new System.Drawing.Point(715, 13);
             this.saveBtn.Name = "saveBtn";
             this.saveBtn.Size = new System.Drawing.Size(60, 23);
             this.saveBtn.TabIndex = 18;

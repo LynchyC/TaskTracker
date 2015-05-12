@@ -38,6 +38,7 @@
             this.catName.Name = "catName";
             this.catName.Size = new System.Drawing.Size(184, 20);
             this.catName.TabIndex = 0;
+            this.catName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.input_KeyDown);
             // 
             // addCategoryBtn
             // 
