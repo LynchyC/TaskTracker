@@ -21,10 +21,18 @@ namespace TaskTracker
 
         public void AddCategoryBtn(object sender, EventArgs e) 
         {
-            if (catName.Text == string.Empty)
-                MessageBox.Show("Please insert a valid Category name");
-            else
-                CategoryName = catName.Text;
+            try
+            {
+                if (catName.Text == string.Empty)
+                    MessageBox.Show("Please insert a valid Category name");
+                else
+                    CategoryName = catName.Text;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.InnerException.ToString());                
+            }
+            
         }
 
         private void input_KeyDown(object sender, KeyEventArgs e)

@@ -56,6 +56,7 @@
             this.taskNameLabel = new System.Windows.Forms.Label();
             this.taskBodyLbl = new System.Windows.Forms.Label();
             this.statusLbl = new System.Windows.Forms.Label();
+            this.miniModeBtn = new System.Windows.Forms.Button();
             this.contextMenuStrip.SuspendLayout();
             this.tasksTab.SuspendLayout();
             this.currenttabPage.SuspendLayout();
@@ -128,6 +129,7 @@
             this.addTaskTextBox.Name = "addTaskTextBox";
             this.addTaskTextBox.Size = new System.Drawing.Size(121, 20);
             this.addTaskTextBox.TabIndex = 4;
+            this.addTaskTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.input_KeyDown);
             // 
             // addTaskBtn
             // 
@@ -152,6 +154,7 @@
             this.tasksTab.Size = new System.Drawing.Size(203, 492);
             this.tasksTab.TabIndex = 7;
             this.tasksTab.Tag = "";
+            this.tasksTab.SelectedIndexChanged += new System.EventHandler(this.TabChange);
             // 
             // currenttabPage
             // 
@@ -262,7 +265,7 @@
             // currentRadioButton
             // 
             this.currentRadioButton.AutoSize = true;
-            this.currentRadioButton.Location = new System.Drawing.Point(569, 16);
+            this.currentRadioButton.Location = new System.Drawing.Point(547, 16);
             this.currentRadioButton.Name = "currentRadioButton";
             this.currentRadioButton.Size = new System.Drawing.Size(59, 17);
             this.currentRadioButton.TabIndex = 16;
@@ -274,7 +277,7 @@
             // completedRadioButton
             // 
             this.completedRadioButton.AutoSize = true;
-            this.completedRadioButton.Location = new System.Drawing.Point(634, 16);
+            this.completedRadioButton.Location = new System.Drawing.Point(612, 16);
             this.completedRadioButton.Name = "completedRadioButton";
             this.completedRadioButton.Size = new System.Drawing.Size(75, 17);
             this.completedRadioButton.TabIndex = 17;
@@ -287,7 +290,7 @@
             // 
             this.saveBtn.Image = ((System.Drawing.Image)(resources.GetObject("saveBtn.Image")));
             this.saveBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.saveBtn.Location = new System.Drawing.Point(715, 13);
+            this.saveBtn.Location = new System.Drawing.Point(693, 13);
             this.saveBtn.Name = "saveBtn";
             this.saveBtn.Size = new System.Drawing.Size(60, 23);
             this.saveBtn.TabIndex = 18;
@@ -319,18 +322,32 @@
             // statusLbl
             // 
             this.statusLbl.AutoSize = true;
-            this.statusLbl.Location = new System.Drawing.Point(528, 18);
+            this.statusLbl.Location = new System.Drawing.Point(506, 18);
             this.statusLbl.Name = "statusLbl";
             this.statusLbl.Size = new System.Drawing.Size(40, 13);
             this.statusLbl.TabIndex = 21;
             this.statusLbl.Text = "Status:";
             this.statusLbl.Visible = false;
             // 
+            // miniModeBtn
+            // 
+            this.miniModeBtn.Image = ((System.Drawing.Image)(resources.GetObject("miniModeBtn.Image")));
+            this.miniModeBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.miniModeBtn.Location = new System.Drawing.Point(761, 13);
+            this.miniModeBtn.Name = "miniModeBtn";
+            this.miniModeBtn.Size = new System.Drawing.Size(62, 23);
+            this.miniModeBtn.TabIndex = 22;
+            this.miniModeBtn.Text = " Mini";
+            this.miniModeBtn.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+            this.miniModeBtn.UseVisualStyleBackColor = true;
+            this.miniModeBtn.Click += new System.EventHandler(this.MiniMode);
+            // 
             // taskTracker
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(835, 612);
+            this.Controls.Add(this.miniModeBtn);
             this.Controls.Add(this.statusLbl);
             this.Controls.Add(this.taskBodyLbl);
             this.Controls.Add(this.taskNameLabel);
@@ -392,6 +409,7 @@
         private System.Windows.Forms.Label taskNameLabel;
         private System.Windows.Forms.Label taskBodyLbl;
         private System.Windows.Forms.Label statusLbl;
+        private System.Windows.Forms.Button miniModeBtn;
     }
 }
 
