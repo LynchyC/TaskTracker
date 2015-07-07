@@ -11,6 +11,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 
 
+
 namespace TaskTracker
 {
     public partial class taskTracker : Form
@@ -26,6 +27,7 @@ namespace TaskTracker
         private bool startUp = true;
         private bool functionCalled = false;
         private string body = "";
+        private List<string> controlNames = new List<string>(new string[] { "taskNametextBox", "taskNamelbl", "taskBodyTextBox", "saveBtn", "currentRadioButton", "completedRadioButton", "statusLbl" });
 
         private async void FormLoad(object sender, EventArgs e)
         {
@@ -65,7 +67,7 @@ namespace TaskTracker
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.InnerException.ToString());
+               _logger.Error(ex.InnerException.ToString());
             }
 
             return true;
@@ -362,7 +364,7 @@ namespace TaskTracker
                 if (startUp == true)
                     return;
                 if (this.WindowState == FormWindowState.Normal)
-                {
+                {                    
                     startUp = true;
                     this.Width = 851;
                     this.Height = 624;
@@ -401,6 +403,11 @@ namespace TaskTracker
                 _logger.Error(ex.InnerException.ToString());
             }
 
+        }
+
+        private void ControlTrigger(bool controlView) 
+        {
+            
         }
         #endregion
 

@@ -13,6 +13,7 @@ namespace TaskTracker
     public partial class AddCategory : Form
     {
         public string CategoryName = "";
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
         public AddCategory()
         {
