@@ -20,20 +20,24 @@ namespace TaskTracker
             InitializeComponent();
         }
 
-        public void AddCategoryBtn(object sender, EventArgs e) 
+        public void AddCategoryBtn(object sender, EventArgs e)
         {
             try
             {
-                if (catName.Text == string.Empty)
-                    MessageBox.Show("Please insert a valid Category name");
-                else
+                if (!string.IsNullOrWhiteSpace(catName.Text.Trim()))
+                {
                     CategoryName = catName.Text;
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                    MessageBox.Show("Please insert a valid Category name");
             }
             catch (Exception ex)
             {
-                _logger.Error(ex.InnerException.ToString());                
+                _logger.Error(ex.InnerException.ToString());
             }
-            
+
         }
 
         private void input_KeyDown(object sender, KeyEventArgs e)

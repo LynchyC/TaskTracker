@@ -42,7 +42,6 @@
             // 
             // addCategoryBtn
             // 
-            this.addCategoryBtn.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.addCategoryBtn.Location = new System.Drawing.Point(202, 10);
             this.addCategoryBtn.Name = "addCategoryBtn";
             this.addCategoryBtn.Size = new System.Drawing.Size(63, 23);

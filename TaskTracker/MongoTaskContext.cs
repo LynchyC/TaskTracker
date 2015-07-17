@@ -13,16 +13,16 @@ using System.Configuration;
 
 namespace TaskTracker
 {
-    public class TaskContext
+    public class MongoTaskContext:ITaskContext
     {
-
+        private static NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
         public const string DATABASE_NAME = "tasks";
         public static string COLLECTION_NAME = "";
 
         private static readonly IMongoClient _client;
         private static readonly IMongoDatabase _database;
 
-        static TaskContext()
+        static MongoTaskContext()
         {
             var connectionString = ConfigurationManager.ConnectionStrings["prod"].ConnectionString;
             _client = new MongoClient(connectionString);
@@ -184,21 +184,21 @@ namespace TaskTracker
                 return tasks;
             }
             else
-                return new List<string>();            
+                return new List<string>();
         }
 
         public async Task<bool> DeleteTask(string catName, string taskName)
         {
             var builder = Builders<Category>.Filter;
             var filter = builder.And(builder.Eq(x => x.CategoryName, catName), builder.Eq("tasks.task_name", taskName));
-            var query = Builders<Category>.Update.Pull("tasks", new BsonDocument() { { "task_name",taskName } });            
+            var query = Builders<Category>.Update.Pull("tasks", new BsonDocument() { { "task_name", taskName } });
             await Categories.FindOneAndUpdateAsync(filter, query);
             return true;
         }
 
         public async Task<bool> TaskStatus(string catName, string taskName, string tag)
         {
-            string query = tag == "Current" ? Task._Status.Completed.ToString():Task._Status.Current.ToString();
+            string query = tag == "Current" ? Task._Status.Completed.ToString() : Task._Status.Current.ToString();
             string id = await GetTaskID(catName, taskName);
             var builder = Builders<Category>.Filter;
             var filter = builder.Eq("tasks._id", ObjectId.Parse(id));
@@ -207,7 +207,7 @@ namespace TaskTracker
             return true;
         }
 
-        public async Task<string> GetTaskID(string catName, string taskName) 
+        public async Task<string> GetTaskID(string catName, string taskName)
         {
             string id = "";
             var builder = Builders<Category>.Filter;
@@ -216,21 +216,22 @@ namespace TaskTracker
             List<Task> tasks = new List<Task>();
             // Cycle through the tasks in the corresponding category to find the matching taskName and then grab the _id. 
             foreach (var item in find[0].Task)
-            {                
-                if (item.TaskName == taskName)                
-                    id = item._id.ToString();                    
-                else                
-                    continue;                                
-            }                
+            {
+                if (item.TaskName == taskName)
+                {
+                    id = item._id.ToString();
+                    return id;
+                }
+            }
             return id;
         }
 
-        public async Task<Task> GetTasksDetails(string catName, string taskName) 
+        public async Task<Task> GetTasksDetails(string catName, string taskName)
         {
             var doc = new Task() { };
             var builder = Builders<Category>.Filter;
             var filter = builder.Eq("tasks._id", ObjectId.Parse(await GetTaskID(catName, taskName)));
-            var find = await Categories.Find<Category>(filter)                                             
+            var find = await Categories.Find<Category>(filter)
                     .ToListAsync<Category>();
             foreach (var item in find[0].Task)
             {
@@ -241,12 +242,12 @@ namespace TaskTracker
                     doc.TaskBody = item.TaskBody;
                     doc.TaskName = item.TaskName;
                     doc.Status = item.Status;
-                }                
+                }
             }
-            return doc;            
+            return doc;
         }
 
-        public async Task<bool> SaveChanges(string taskBody, string taskName, string catName) 
+        public async Task<bool> SaveChanges(string taskBody, string taskName, string catName)
         {
             var builder = Builders<Category>.Filter;
             var filter = builder.Eq("tasks._id", ObjectId.Parse(await GetTaskID(catName, taskName)));
@@ -255,7 +256,7 @@ namespace TaskTracker
             return true;
         }
 
-        public async Task<string> CheckStatus(string catName, string taskName) 
+        public async Task<string> CheckStatus(string catName, string taskName)
         {
             var builder = Builders<Category>.Filter;
             var filter = builder.Eq("tasks._id", ObjectId.Parse(await GetTaskID(catName, taskName)));
@@ -267,7 +268,7 @@ namespace TaskTracker
                     string status = item.Status.ToString();
                     return status;
                 }
-            }            
+            }
 
             return "";
         }
