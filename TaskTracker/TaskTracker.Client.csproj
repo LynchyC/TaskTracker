@@ -47,6 +47,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\MongoDB.Driver.Core.2.0.1\lib\net45\MongoDB.Driver.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="NLog">
       <HintPath>..\packages\NLog.4.0.1\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -71,8 +75,10 @@
       <DependentUpon>AddCategory.cs</DependentUpon>
     </Compile>
     <Compile Include="Category.cs" />
+    <Compile Include="ITaskContext.cs" />
+    <Compile Include="JSONTaskContext.cs" />
     <Compile Include="Task.cs" />
-    <Compile Include="TaskContext.cs" />
+    <Compile Include="MongoTaskContext.cs" />
     <Compile Include="TaskTracker.cs">
       <SubType>Form</SubType>
     </Compile>
